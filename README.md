@@ -26,7 +26,7 @@ PortfolioSite/
 
 - **Build Tools**: pnpm, Turborepo
 - **Languages**: TypeScript, Python
-- **Frameworks**: 
+- **Frameworks**:
   - Astro 5
   - Next.js 15 (App Router)
   - Hono
@@ -34,7 +34,7 @@ PortfolioSite/
 - **UI**: Tailwind CSS, shadcn/ui
 - **Data**: Drizzle ORM, PostgreSQL
 - **Testing**: Vitest, Jest
-- **Deployment**: 
+- **Deployment**:
   - Vercel (Astro & Next.js)
   - Cloudflare Workers (Hono)
   - Fly.io (FastAPI)
@@ -46,28 +46,38 @@ PortfolioSite/
 - Node.js 20+
 - pnpm 8.15+
 - Docker & Docker Compose
-- Bun 1.2+
-- Python 3.11+
+- Bun 1.2+ (for Hono API)
+- Python 3.11+ (for FastAPI service)
+- Poetry (for Python dependency management)
 
 ### Development
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/PortfolioSite.git
    cd PortfolioSite
    ```
 
-2. Install dependencies:
+2. Install Node.js dependencies:
+
    ```bash
    pnpm install
    ```
 
-3. Start PostgreSQL:
+3. Install Python dependencies for FastAPI service:
+
+   ```bash
+   pnpm --filter @nova/fastapi-svc install:poetry
+   ```
+
+4. Start PostgreSQL:
+
    ```bash
    pnpm docker:up
    ```
 
-4. Start all services:
+5. Start all services:
    ```bash
    pnpm dev
    ```

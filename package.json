@@ -1,20 +1,24 @@
 {
   "name": "portfolio-site",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev --parallel",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo test",
+    "test:watch": "turbo test:watch",
     "clean": "turbo clean && rimraf node_modules",
     "clean:deps": "rimraf node_modules && rimraf apps/*/node_modules && rimraf packages/*/node_modules",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "prepare": "husky install"
+    "setup": "pnpm install && pnpm --filter @nova/fastapi-svc install:poetry",
+    "health": "curl -s http://localhost:3001/healthz && curl -s http://localhost:8000/api/health",
+    "prepare": "husky"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+    "apps/*/src/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ],
@@ -23,15 +27,18 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
-    "eslint": "^8.56.0",
+    "@eslint/js": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "husky": "^9.0.0",
     "lint-staged": "^15.2.0",
     "prettier": "^3.2.0",
     "rimraf": "^5.0.0",
-    "turbo": "^1.12.0",
+    "turbo": "^2.0.0",
     "typescript": "^5.3.0"
   },
   "packageManager": "pnpm@8.15.0",

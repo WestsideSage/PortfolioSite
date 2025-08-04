@@ -17,11 +17,11 @@ services:
       context: ./apps/fastapi-svc
       dockerfile: Dockerfile
     ports:
-      - "3002:3002"
+      - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/nova_portfolio
       - FASTAPI_HOST=0.0.0.0
-      - FASTAPI_PORT=3002
+      - FASTAPI_PORT=8000
     depends_on:
       - postgres
 

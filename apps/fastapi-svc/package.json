@@ -1,0 +1,11 @@
+{
+  "name": "@nova/fastapi-svc",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "install:poetry": "poetry install --no-root || echo 'Poetry not found. Please install Poetry: https://python-poetry.org/docs/#installation'",
+    "dev": "poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload || echo 'Poetry dependencies not installed. Run: pnpm --filter @nova/fastapi-svc install:poetry'",
+    "lint": "poetry run black . && poetry run isort . && poetry run mypy .",
+    "test": "poetry run pytest"
+  }
+}
