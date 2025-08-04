@@ -14,10 +14,10 @@
     "lint": "eslint . --ext .js,.ts,.astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^2.0.0",
-    "@astrojs/tailwind": "^5.0.0",
+    "@astrojs/mdx": "^4.3.3",
+    "@astrojs/tailwind": "^6.0.2",
     "@nova/config": "workspace:*",
-    "astro": "^4.0.0",
+    "astro": "^5.12.8",
     "tailwindcss": "^3.0.24"
   },
   "devDependencies": {

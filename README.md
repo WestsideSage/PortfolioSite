@@ -12,7 +12,7 @@ A modern, production-ready web technology demonstration using a monorepo structu
 ## 📦 Package Structure
 
 ```
-nova-portfolio/
+PortfolioSite/
 ├── apps/
 │   ├── astro-site/        # Static marketing site
 │   ├── next-dashboard/    # Interactive dashboard
@@ -53,8 +53,8 @@ nova-portfolio/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/nova-portfolio.git
-   cd nova-portfolio
+   git clone https://github.com/yourusername/PortfolioSite.git
+   cd PortfolioSite
    ```
 
 2. Install dependencies:
