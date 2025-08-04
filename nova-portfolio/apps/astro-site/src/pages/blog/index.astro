@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+// Sort posts by publication date (newest first)
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<Layout title="Blog | Nova Portfolio" description="Read the latest articles about web development, technology, and best practices">
+  <main class="container mx-auto px-4 py-8">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">Blog</h1>
+      <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+        Discover insights, tutorials, and thoughts on modern web development
+      </p>
+    </header>
+    
+    {sortedPosts.length > 0 ? (
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {sortedPosts.map(post => (
+          <article class="bg-card rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <h2 class="text-2xl font-semibold mb-2">
+              <a href={`/blog/${post.slug}`} class="hover:text-primary transition-colors">
+                {post.data.title}
+              </a>
+            </h2>
+            <p class="text-muted-foreground mb-4">{post.data.description}</p>
+            <div class="flex items-center justify-between text-sm text-muted-foreground">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="flex gap-2">
+                  {post.data.tags.slice(0, 2).map(tag => (
+                    <span class="px-2 py-1 bg-secondary text-secondary-foreground rounded text-xs">
+                      {tag}
+                    </span>
+                  ))}
+                  {post.data.tags.length > 2 && (
+                    <span class="px-2 py-1 bg-secondary text-secondary-foreground rounded text-xs">
+                      +{post.data.tags.length - 2}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <div class="max-w-md mx-auto">
+          <svg class="mx-auto h-12 w-12 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-foreground">No blog posts</h3>
+          <p class="mt-1 text-sm text-muted-foreground">Get started by creating your first blog post.</p>
+        </div>
+      </div>
+    )}
+  </main>
+</Layout>
