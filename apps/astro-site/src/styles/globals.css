@@ -64,43 +64,44 @@
     @apply max-w-none;
     line-height: 1.7;
   }
-  
+
   .prose-content h1 {
     @apply text-3xl font-bold mt-8 mb-4 text-foreground;
   }
-  
+
   .prose-content h2 {
     @apply text-2xl font-semibold mt-6 mb-3 text-foreground;
   }
-  
+
   .prose-content h3 {
     @apply text-xl font-medium mt-4 mb-2 text-foreground;
   }
-  
+
   .prose-content p {
     @apply mb-4 leading-relaxed text-foreground;
   }
-  
-  .prose-content ul, .prose-content ol {
+
+  .prose-content ul,
+  .prose-content ol {
     @apply mb-4 pl-6;
   }
-  
+
   .prose-content li {
     @apply mb-2;
   }
-  
+
   .prose-content strong {
     @apply font-semibold text-foreground;
   }
-  
+
   .prose-content code {
     @apply bg-secondary text-secondary-foreground px-1 py-0.5 rounded text-sm font-mono;
   }
-  
+
   .prose-content pre {
     @apply bg-secondary p-4 rounded-lg overflow-x-auto mb-4;
   }
-  
+
   .prose-content blockquote {
     @apply border-l-4 border-primary pl-4 italic text-muted-foreground mb-4;
   }
@@ -112,5 +113,50 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* Spotify Player Animations */
+  @keyframes slideInUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOutDown {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulse-gentle {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-slide-in {
+    animation: slideInUp 0.3s ease-out;
+  }
+
+  .animate-slide-out {
+    animation: slideOutDown 0.3s ease-in;
+  }
+
+  .animate-pulse-gentle {
+    animation: pulse-gentle 2s ease-in-out infinite;
   }
 }

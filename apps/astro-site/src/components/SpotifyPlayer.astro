@@ -1,0 +1,1343 @@
+---
+// SpotifyPlayer.astro - Enhanced version with volume, shuffle, repeat, seek, and more
+---
+
+<div
+  id="spotify-player"
+  class="fixed bottom-4 right-4 bg-card border border-border rounded-lg shadow-lg p-4 w-80 z-50 transition-all duration-300 transform translate-y-full opacity-0"
+>
+  <div id="player-content" class="space-y-3">
+    <!-- Track Info -->
+    <div class="flex items-center space-x-3">
+      <div id="album-art" class="w-12 h-12 bg-secondary rounded-md flex-shrink-0 overflow-hidden">
+        <img id="album-image" class="w-full h-full object-cover hidden" alt="Album art" />
+        <div
+          id="music-icon"
+          class="w-full h-full flex items-center justify-center text-muted-foreground"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM15.657 6.343a1 1 0 011.414 0A9.972 9.972 0 0119 12a9.972 9.972 0 01-1.929 5.657 1 1 0 11-1.414-1.414A7.971 7.971 0 0017 12a7.971 7.971 0 00-1.343-4.243 1 1 0 010-1.414z"
+              clip-rule="evenodd"></path>
+            <path
+              fill-rule="evenodd"
+              d="M13.828 8.172a1 1 0 011.414 0A5.983 5.983 0 0117 12a5.983 5.983 0 01-1.758 3.828 1 1 0 11-1.414-1.414A3.987 3.987 0 0015 12a3.987 3.987 0 00-1.172-2.828 1 1 0 010-1.414z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="flex-1 min-w-0">
+        <div id="track-name" class="font-medium text-sm text-foreground truncate">Not playing</div>
+        <div id="artist-name" class="text-xs text-muted-foreground truncate">
+          Connect to Spotify
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <a
+          id="spotify-link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-green-500 hover:text-green-400 transition-colors hidden"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.48.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"
+            ></path>
+          </svg>
+        </a>
+        <button
+          id="toggle-player"
+          class="text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <svg
+            id="minimize-icon"
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+          <svg
+            id="maximize-icon"
+            class="w-4 h-4 hidden"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress Bar with Time Display -->
+    <div id="progress-container" class="hidden">
+      <div class="flex items-center justify-between text-xs text-muted-foreground mb-1">
+        <span id="current-time">0:00</span>
+        <span id="total-time">0:00</span>
+      </div>
+      <div class="w-full bg-secondary rounded-full h-1 cursor-pointer" id="progress-track">
+        <div
+          id="progress-bar"
+          class="bg-primary h-1 rounded-full transition-all duration-1000"
+          style="width: 0%"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- Volume Control -->
+    <div id="volume-container" class="hidden">
+      <div class="flex items-center space-x-2">
+        <button
+          id="volume-icon"
+          class="text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <svg id="volume-high" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM15.657 6.343a1 1 0 011.414 0A9.972 9.972 0 0119 12a9.972 9.972 0 01-1.929 5.657 1 1 0 11-1.414-1.414A7.971 7.971 0 0017 12a7.971 7.971 0 00-1.343-4.243 1 1 0 010-1.414z"
+              clip-rule="evenodd"></path>
+            <path
+              fill-rule="evenodd"
+              d="M13.828 8.172a1 1 0 011.414 0A5.983 5.983 0 0117 12a5.983 5.983 0 01-1.758 3.828 1 1 0 11-1.414-1.414A3.987 3.987 0 0015 12a3.987 3.987 0 00-1.172-2.828 1 1 0 010-1.414z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <svg id="volume-low" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707z"
+              clip-rule="evenodd"></path>
+            <path
+              fill-rule="evenodd"
+              d="M13.828 8.172a1 1 0 011.414 0A5.983 5.983 0 0117 12a5.983 5.983 0 01-1.758 3.828 1 1 0 11-1.414-1.414A3.987 3.987 0 0015 12a3.987 3.987 0 00-1.172-2.828z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <svg id="volume-mute" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707z"
+              clip-rule="evenodd"></path>
+            <path
+              fill-rule="evenodd"
+              d="M3.707 9.293a1 1 0 011.414 0l1.414 1.414 1.414-1.414a1 1 0 111.414 1.414L7.95 12.121l1.414 1.414a1 1 0 11-1.414 1.414L6.536 13.535 5.122 14.95a1 1 0 01-1.414-1.414L5.122 12.12 3.708 10.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <div class="flex-1">
+          <input
+            type="range"
+            id="volume-slider"
+            min="0"
+            max="100"
+            value="50"
+            class="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer slider"
+          />
+        </div>
+        <span id="volume-display" class="text-xs text-muted-foreground w-8 text-right">50%</span>
+      </div>
+    </div>
+
+    <!-- Playback Controls -->
+    <div id="playback-controls" class="flex items-center justify-center space-x-4 hidden">
+      <button
+        id="shuffle-btn"
+        class="control-btn text-muted-foreground hover:text-foreground transition-colors"
+        title="Shuffle"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"
+          ></path>
+        </svg>
+      </button>
+
+      <button
+        id="prev-btn"
+        class="control-btn text-muted-foreground hover:text-foreground transition-colors"
+        title="Previous"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path>
+        </svg>
+      </button>
+
+      <button
+        id="play-pause-btn"
+        class="control-btn text-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full"
+        title="Play/Pause"
+      >
+        <svg id="play-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg id="pause-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6 4h4v16H6zm8 0h4v16h-4z"></path>
+        </svg>
+      </button>
+
+      <button
+        id="next-btn"
+        class="control-btn text-muted-foreground hover:text-foreground transition-colors"
+        title="Next"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M16 18h2V6h-2zm-3.5-6L4 6v12z"></path>
+        </svg>
+      </button>
+
+      <button
+        id="repeat-btn"
+        class="control-btn text-muted-foreground hover:text-foreground transition-colors"
+        title="Repeat"
+      >
+        <svg id="repeat-off" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"></path>
+        </svg>
+        <svg id="repeat-context" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"></path>
+        </svg>
+        <svg id="repeat-track" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"></path>
+          <text x="12" y="16" text-anchor="middle" font-size="8" fill="currentColor">1</text>
+        </svg>
+      </button>
+
+      <button
+        id="playlist-btn"
+        class="control-btn text-muted-foreground hover:text-foreground transition-colors"
+        title="Playlists"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"
+          ></path>
+        </svg>
+      </button>
+
+      <button
+        id="devices-btn"
+        class="control-btn text-muted-foreground hover:text-foreground transition-colors"
+        title="Devices"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Device Info -->
+    <div id="device-info" class="hidden text-xs text-muted-foreground text-center">
+      <span id="device-name">Unknown Device</span>
+    </div>
+  </div>
+
+  <!-- Device Selection Modal -->
+  <div
+    id="device-modal"
+    class="fixed inset-0 bg-black bg-opacity-50 z-60 hidden items-center justify-center"
+  >
+    <div class="bg-card border border-border rounded-lg shadow-lg max-w-md w-full mx-4 max-h-96">
+      <div class="flex items-center justify-between p-4 border-b border-border">
+        <h3 class="text-lg font-semibold text-foreground">Select Device</h3>
+        <button
+          id="close-device-btn"
+          class="text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="device-list" class="p-4 max-h-64 overflow-y-auto">Loading devices...</div>
+    </div>
+  </div>
+
+  <!-- Playlist Modal -->
+  <div
+    id="playlist-modal"
+    class="fixed inset-0 bg-black bg-opacity-50 z-60 hidden items-center justify-center"
+  >
+    <div class="bg-card border border-border rounded-lg shadow-lg max-w-md w-full mx-4 max-h-96">
+      <div class="flex items-center justify-between p-4 border-b border-border">
+        <h3 class="text-lg font-semibold text-foreground">Select Playlist</h3>
+        <button
+          id="close-playlist-btn"
+          class="text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="playlist-list" class="p-4 max-h-64 overflow-y-auto">Loading playlists...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  class SpotifyPlayer {
+    private player: HTMLElement;
+    private isMinimized: boolean = false;
+    private updateInterval: number | null = null;
+    private lastTrackId: string | null = null;
+    private isPlaying: boolean = false;
+    private currentVolume: number = 50;
+    private shuffleState: boolean = false;
+    private repeatMode: 'off' | 'track' | 'context' = 'off';
+    private isDraggingVolume: boolean = false;
+    private isDraggingProgress: boolean = false;
+
+    constructor() {
+      this.player = document.getElementById('spotify-player')!;
+      this.init();
+    }
+
+    private init() {
+      this.setupToggleButton();
+      this.setupPlaybackControls();
+      this.setupVolumeControl();
+      this.setupProgressControl();
+      this.setupPlaylistModal();
+      this.setupDeviceModal();
+      this.startUpdating();
+
+      // Show player after a brief delay
+      setTimeout(() => {
+        this.showPlayer();
+      }, 1000);
+    }
+
+    private setupToggleButton() {
+      const toggleButton = document.getElementById('toggle-player');
+      const minimizeIcon = document.getElementById('minimize-icon');
+      const maximizeIcon = document.getElementById('maximize-icon');
+
+      toggleButton?.addEventListener('click', () => {
+        this.isMinimized = !this.isMinimized;
+        const playbackControls = document.getElementById('playback-controls');
+        const volumeContainer = document.getElementById('volume-container');
+        const deviceInfo = document.getElementById('device-info');
+
+        if (this.isMinimized) {
+          this.player.classList.add('h-16');
+          playbackControls?.classList.add('hidden');
+          volumeContainer?.classList.add('hidden');
+          deviceInfo?.classList.add('hidden');
+          minimizeIcon?.classList.add('hidden');
+          maximizeIcon?.classList.remove('hidden');
+        } else {
+          this.player.classList.remove('h-16');
+          if (this.isPlaying) {
+            playbackControls?.classList.remove('hidden');
+            volumeContainer?.classList.remove('hidden');
+            deviceInfo?.classList.remove('hidden');
+          }
+          minimizeIcon?.classList.remove('hidden');
+          maximizeIcon?.classList.add('hidden');
+        }
+      });
+    }
+
+    private setupPlaybackControls() {
+      // Play/Pause button
+      document.getElementById('play-pause-btn')?.addEventListener('click', async () => {
+        if (this.isPlaying) {
+          await this.pausePlayback();
+        } else {
+          await this.resumePlayback();
+        }
+      });
+
+      // Previous button
+      document.getElementById('prev-btn')?.addEventListener('click', async () => {
+        await this.skipToPrevious();
+      });
+
+      // Next button
+      document.getElementById('next-btn')?.addEventListener('click', async () => {
+        await this.skipToNext();
+      });
+
+      // Shuffle button
+      document.getElementById('shuffle-btn')?.addEventListener('click', async () => {
+        await this.toggleShuffle();
+      });
+
+      // Repeat button
+      document.getElementById('repeat-btn')?.addEventListener('click', async () => {
+        await this.toggleRepeat();
+      });
+
+      // Playlist button
+      document.getElementById('playlist-btn')?.addEventListener('click', () => {
+        this.showPlaylistModal();
+      });
+
+      // Devices button
+      document.getElementById('devices-btn')?.addEventListener('click', () => {
+        this.showDeviceModal();
+      });
+    }
+
+    private setupVolumeControl() {
+      const volumeSlider = document.getElementById('volume-slider') as HTMLInputElement;
+      const volumeIcon = document.getElementById('volume-icon');
+
+      // Volume slider
+      volumeSlider?.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        const volume = parseInt(target.value);
+        this.updateVolumeDisplay(volume);
+        this.isDraggingVolume = true;
+      });
+
+      volumeSlider?.addEventListener('change', async (e) => {
+        const target = e.target as HTMLInputElement;
+        const volume = parseInt(target.value);
+        await this.setVolume(volume);
+        this.isDraggingVolume = false;
+      });
+
+      // Volume icon (mute/unmute)
+      volumeIcon?.addEventListener('click', async () => {
+        if (this.currentVolume > 0) {
+          await this.setVolume(0);
+        } else {
+          await this.setVolume(50);
+        }
+      });
+    }
+
+    private setupProgressControl() {
+      const progressTrack = document.getElementById('progress-track');
+
+      progressTrack?.addEventListener('click', async (e) => {
+        const rect = progressTrack.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const percentage = clickX / rect.width;
+
+        // Get current track duration from the player state
+        const totalTimeElement = document.getElementById('total-time');
+        if (totalTimeElement && totalTimeElement.dataset.duration) {
+          const duration = parseInt(totalTimeElement.dataset.duration);
+          const seekPosition = Math.floor(duration * percentage);
+          await this.seekToPosition(seekPosition);
+        }
+      });
+    }
+
+    private setupPlaylistModal() {
+      const modal = document.getElementById('playlist-modal');
+      const closeBtn = document.getElementById('close-playlist-btn');
+
+      closeBtn?.addEventListener('click', () => {
+        modal?.classList.add('hidden');
+        modal?.classList.remove('flex');
+      });
+
+      // Close modal when clicking outside
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      });
+    }
+
+    private setupDeviceModal() {
+      const modal = document.getElementById('device-modal');
+      const closeBtn = document.getElementById('close-device-btn');
+
+      closeBtn?.addEventListener('click', () => {
+        modal?.classList.add('hidden');
+        modal?.classList.remove('flex');
+      });
+
+      // Close modal when clicking outside
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      });
+    }
+
+    private async pausePlayback() {
+      try {
+        const response = await fetch('/api/spotify/pause', { method: 'POST' });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          this.updatePlayPauseButton(false);
+        } else {
+          console.error('Failed to pause playback:', data.error);
+          if (response.status === 500) {
+            this.showAuthorizationError();
+          }
+        }
+      } catch (error) {
+        console.error('Error pausing playback:', error);
+      }
+    }
+
+    private async resumePlayback() {
+      try {
+        const response = await fetch('/api/spotify/play', { method: 'POST' });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          this.updatePlayPauseButton(true);
+        } else {
+          console.error('Failed to resume playback:', data.error);
+          if (response.status === 500) {
+            this.showAuthorizationError();
+          }
+        }
+      } catch (error) {
+        console.error('Error resuming playback:', error);
+      }
+    }
+
+    private async skipToNext() {
+      try {
+        const response = await fetch('/api/spotify/next', { method: 'POST' });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          setTimeout(() => {
+            this.updateCurrentlyPlaying();
+          }, 500);
+        } else {
+          console.error('Failed to skip to next:', data.error);
+          if (response.status === 500) {
+            this.showAuthorizationError();
+          }
+        }
+      } catch (error) {
+        console.error('Error skipping to next:', error);
+      }
+    }
+
+    private async skipToPrevious() {
+      try {
+        const response = await fetch('/api/spotify/previous', { method: 'POST' });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          setTimeout(() => {
+            this.updateCurrentlyPlaying();
+          }, 500);
+        } else {
+          console.error('Failed to skip to previous:', data.error);
+          if (response.status === 500) {
+            this.showAuthorizationError();
+          }
+        }
+      } catch (error) {
+        console.error('Error skipping to previous:', error);
+      }
+    }
+
+    private async toggleShuffle() {
+      try {
+        const newShuffleState = !this.shuffleState;
+        const response = await fetch('/api/spotify/shuffle', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state: newShuffleState }),
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          this.shuffleState = newShuffleState;
+          this.updateShuffleButton();
+        } else {
+          console.error('Failed to toggle shuffle:', data.error);
+        }
+      } catch (error) {
+        console.error('Error toggling shuffle:', error);
+      }
+    }
+
+    private async toggleRepeat() {
+      try {
+        let newRepeatMode: 'off' | 'track' | 'context';
+
+        switch (this.repeatMode) {
+          case 'off':
+            newRepeatMode = 'context';
+            break;
+          case 'context':
+            newRepeatMode = 'track';
+            break;
+          case 'track':
+            newRepeatMode = 'off';
+            break;
+          default:
+            newRepeatMode = 'off';
+        }
+
+        const response = await fetch('/api/spotify/repeat', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state: newRepeatMode }),
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          this.repeatMode = newRepeatMode;
+          this.updateRepeatButton();
+        } else {
+          console.error('Failed to toggle repeat:', data.error);
+        }
+      } catch (error) {
+        console.error('Error toggling repeat:', error);
+      }
+    }
+
+    private async setVolume(volume: number) {
+      try {
+        const response = await fetch('/api/spotify/volume', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ volume }),
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          this.currentVolume = volume;
+          this.updateVolumeDisplay(volume);
+        } else {
+          console.error('Failed to set volume:', data.error);
+        }
+      } catch (error) {
+        console.error('Error setting volume:', error);
+      }
+    }
+
+    private async seekToPosition(position_ms: number) {
+      try {
+        const response = await fetch('/api/spotify/seek', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ position_ms }),
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          // Force update after a short delay
+          setTimeout(() => {
+            this.updateCurrentlyPlaying();
+          }, 200);
+        } else {
+          console.error('Failed to seek:', data.error);
+        }
+      } catch (error) {
+        console.error('Error seeking:', error);
+      }
+    }
+
+    private async showPlaylistModal() {
+      const modal = document.getElementById('playlist-modal');
+      const playlistList = document.getElementById('playlist-list');
+
+      modal?.classList.remove('hidden');
+      modal?.classList.add('flex');
+
+      if (playlistList) {
+        playlistList.innerHTML = 'Loading playlists...';
+      }
+
+      try {
+        const response = await fetch('/api/spotify/playlists');
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (data.error) {
+          if (playlistList) {
+            playlistList.innerHTML = `<div class="text-red-500 text-sm p-2">${data.error}</div>`;
+          }
+          return;
+        }
+
+        if (data.playlists && data.playlists.length > 0 && playlistList) {
+          playlistList.innerHTML = '';
+
+          data.playlists.forEach((playlist: any) => {
+            const playlistItem = document.createElement('div');
+            playlistItem.className =
+              'flex items-center space-x-3 p-2 hover:bg-secondary rounded-md cursor-pointer transition-colors';
+
+            const imageUrl =
+              playlist.images && playlist.images.length > 0 ? playlist.images[0].url : '';
+
+            playlistItem.innerHTML = `
+              <div class="w-10 h-10 rounded-md bg-secondary flex-shrink-0 overflow-hidden">
+                ${
+                  imageUrl
+                    ? `<img src="${imageUrl}" alt="${playlist.name}" class="w-full h-full object-cover" />`
+                    : '<div class="w-full h-full flex items-center justify-center text-muted-foreground text-xs">♪</div>'
+                }
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-medium text-sm text-foreground truncate">${playlist.name}</div>
+                <div class="text-xs text-muted-foreground truncate">${playlist.tracks?.total || 0} tracks</div>
+              </div>
+            `;
+
+            playlistItem.addEventListener('click', async () => {
+              await this.playPlaylist(playlist.id);
+              modal?.classList.add('hidden');
+              modal?.classList.remove('flex');
+            });
+
+            playlistList.appendChild(playlistItem);
+          });
+        } else if (playlistList) {
+          playlistList.innerHTML =
+            '<div class="text-muted-foreground text-sm p-2">No playlists found</div>';
+        }
+      } catch (error) {
+        console.error('Error fetching playlists:', error);
+        if (playlistList) {
+          playlistList.innerHTML =
+            '<div class="text-red-500 text-sm p-2">Error loading playlists. Please try again.</div>';
+        }
+      }
+    }
+
+    private async showDeviceModal() {
+      const modal = document.getElementById('device-modal');
+      const deviceList = document.getElementById('device-list');
+
+      modal?.classList.remove('hidden');
+      modal?.classList.add('flex');
+
+      if (deviceList) {
+        deviceList.innerHTML = 'Loading devices...';
+      }
+
+      try {
+        const response = await fetch('/api/spotify/devices');
+        const data = await response.json();
+
+        if (data.devices && data.devices.length > 0 && deviceList) {
+          deviceList.innerHTML = '';
+
+          data.devices.forEach((device: any) => {
+            const deviceItem = document.createElement('div');
+            deviceItem.className = `flex items-center space-x-3 p-2 hover:bg-secondary rounded-md cursor-pointer transition-colors ${device.is_active ? 'bg-primary/10' : ''}`;
+
+            const deviceIcon = this.getDeviceIcon(device.type);
+
+            deviceItem.innerHTML = `
+              <div class="w-6 h-6 flex items-center justify-center text-muted-foreground">
+                ${deviceIcon}
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-medium text-sm text-foreground truncate">${device.name}</div>
+                <div class="text-xs text-muted-foreground truncate">${device.type} ${device.is_active ? '(Active)' : ''}</div>
+              </div>
+            `;
+
+            if (!device.is_active) {
+              deviceItem.addEventListener('click', async () => {
+                await this.switchDevice(device.id);
+                modal?.classList.add('hidden');
+                modal?.classList.remove('flex');
+              });
+            }
+
+            deviceList.appendChild(deviceItem);
+          });
+        } else if (deviceList) {
+          deviceList.innerHTML =
+            '<div class="text-muted-foreground text-sm p-2">No devices found. Make sure Spotify is open on at least one device.</div>';
+        }
+      } catch (error) {
+        console.error('Error fetching devices:', error);
+        if (deviceList) {
+          deviceList.innerHTML =
+            '<div class="text-red-500 text-sm p-2">Error loading devices. Please try again.</div>';
+        }
+      }
+    }
+
+    private async playPlaylist(playlistId: string) {
+      try {
+        const response = await fetch('/api/spotify/play-playlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ playlistId }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          setTimeout(() => {
+            this.updateCurrentlyPlaying();
+          }, 1000);
+        } else {
+          console.error('Failed to play playlist:', data.error);
+          if (response.status === 500) {
+            this.showAuthorizationError();
+          }
+        }
+      } catch (error) {
+        console.error('Error playing playlist:', error);
+      }
+    }
+
+    private async switchDevice(deviceId: string) {
+      try {
+        const response = await fetch('/api/spotify/devices', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ device_id: deviceId }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          setTimeout(() => {
+            this.updateCurrentlyPlaying();
+          }, 1000);
+        } else {
+          console.error('Failed to switch device:', data.error);
+        }
+      } catch (error) {
+        console.error('Error switching device:', error);
+      }
+    }
+
+    private getDeviceIcon(deviceType: string): string {
+      switch (deviceType.toLowerCase()) {
+        case 'computer':
+          return '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H8a1 1 0 000 2h4a1 1 0 100-2H8.771z" clip-rule="evenodd"/></svg>';
+        case 'smartphone':
+          return '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zM8 5a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>';
+        case 'speaker':
+          return '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd"/></svg>';
+        default:
+          return '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03z" clip-rule="evenodd"/></svg>';
+      }
+    }
+
+    private updatePlayPauseButton(isPlaying: boolean) {
+      const playIcon = document.getElementById('play-icon');
+      const pauseIcon = document.getElementById('pause-icon');
+
+      if (isPlaying) {
+        playIcon?.classList.add('hidden');
+        pauseIcon?.classList.remove('hidden');
+      } else {
+        playIcon?.classList.remove('hidden');
+        pauseIcon?.classList.add('hidden');
+      }
+
+      this.isPlaying = isPlaying;
+    }
+
+    private updateShuffleButton() {
+      const shuffleBtn = document.getElementById('shuffle-btn');
+      if (shuffleBtn) {
+        if (this.shuffleState) {
+          shuffleBtn.classList.remove('text-muted-foreground');
+          shuffleBtn.classList.add('text-primary');
+        } else {
+          shuffleBtn.classList.add('text-muted-foreground');
+          shuffleBtn.classList.remove('text-primary');
+        }
+      }
+    }
+
+    private updateRepeatButton() {
+      const repeatOff = document.getElementById('repeat-off');
+      const repeatContext = document.getElementById('repeat-context');
+      const repeatTrack = document.getElementById('repeat-track');
+      const repeatBtn = document.getElementById('repeat-btn');
+
+      // Hide all icons first
+      repeatOff?.classList.add('hidden');
+      repeatContext?.classList.add('hidden');
+      repeatTrack?.classList.add('hidden');
+
+      // Reset button color
+      repeatBtn?.classList.add('text-muted-foreground');
+      repeatBtn?.classList.remove('text-primary');
+
+      switch (this.repeatMode) {
+        case 'off':
+          repeatOff?.classList.remove('hidden');
+          break;
+        case 'context':
+          repeatContext?.classList.remove('hidden');
+          repeatBtn?.classList.remove('text-muted-foreground');
+          repeatBtn?.classList.add('text-primary');
+          break;
+        case 'track':
+          repeatTrack?.classList.remove('hidden');
+          repeatBtn?.classList.remove('text-muted-foreground');
+          repeatBtn?.classList.add('text-primary');
+          break;
+      }
+    }
+
+    private updateVolumeDisplay(volume: number) {
+      const volumeSlider = document.getElementById('volume-slider') as HTMLInputElement;
+      const volumeDisplay = document.getElementById('volume-display');
+      const volumeHigh = document.getElementById('volume-high');
+      const volumeLow = document.getElementById('volume-low');
+      const volumeMute = document.getElementById('volume-mute');
+
+      if (volumeSlider) volumeSlider.value = volume.toString();
+      if (volumeDisplay) volumeDisplay.textContent = `${volume}%`;
+
+      // Update volume icon
+      volumeHigh?.classList.add('hidden');
+      volumeLow?.classList.add('hidden');
+      volumeMute?.classList.add('hidden');
+
+      if (volume === 0) {
+        volumeMute?.classList.remove('hidden');
+      } else if (volume < 50) {
+        volumeLow?.classList.remove('hidden');
+      } else {
+        volumeHigh?.classList.remove('hidden');
+      }
+
+      this.currentVolume = volume;
+    }
+
+    private formatTime(ms: number): string {
+      const seconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const remainderSeconds = seconds % 60;
+      return `${minutes}:${remainderSeconds.toString().padStart(2, '0')}`;
+    }
+
+    private showPlayer() {
+      this.player.classList.remove('translate-y-full', 'opacity-0');
+      this.player.classList.add('translate-y-0', 'opacity-100');
+    }
+
+    private hidePlayer() {
+      this.player.classList.add('translate-y-full', 'opacity-0');
+      this.player.classList.remove('translate-y-0', 'opacity-100');
+    }
+
+    private async updateCurrentlyPlaying() {
+      try {
+        const response = await fetch('/api/spotify/currently-playing');
+        const data = await response.json();
+
+        if (data.error && data.error.includes('not configured')) {
+          this.showSetupRequired();
+          if (!this.player.classList.contains('translate-y-0')) {
+            this.showPlayer();
+          }
+        } else if (data.track) {
+          this.updatePlayerDisplay(data);
+          if (!this.player.classList.contains('translate-y-0')) {
+            this.showPlayer();
+          }
+        } else {
+          this.showNotPlaying();
+        }
+      } catch (error) {
+        console.error('Error fetching currently playing:', error);
+        this.showNotPlaying();
+      }
+    }
+
+    private updatePlayerDisplay(data: any) {
+      const track = data.track;
+
+      // Update track info
+      const trackName = document.getElementById('track-name');
+      const artistName = document.getElementById('artist-name');
+      const albumImage = document.getElementById('album-image') as HTMLImageElement;
+      const musicIcon = document.getElementById('music-icon');
+      const spotifyLink = document.getElementById('spotify-link') as HTMLLinkElement;
+      const progressContainer = document.getElementById('progress-container');
+      const progressBar = document.getElementById('progress-bar');
+      const volumeContainer = document.getElementById('volume-container');
+      const playbackControls = document.getElementById('playback-controls');
+      const deviceInfo = document.getElementById('device-info');
+      const deviceName = document.getElementById('device-name');
+      const currentTime = document.getElementById('current-time');
+      const totalTime = document.getElementById('total-time');
+
+      if (trackName) trackName.textContent = track.name;
+      if (artistName) artistName.textContent = track.artist;
+
+      // Update album art
+      if (track.albumArt && albumImage && musicIcon) {
+        albumImage.src = track.albumArt;
+        albumImage.classList.remove('hidden');
+        musicIcon.classList.add('hidden');
+      } else if (musicIcon && albumImage) {
+        albumImage.classList.add('hidden');
+        musicIcon.classList.remove('hidden');
+      }
+
+      // Update Spotify link
+      if (spotifyLink) {
+        spotifyLink.href = track.spotifyUrl;
+        spotifyLink.classList.remove('hidden');
+      }
+
+      // Update progress bar and times
+      if (data.isPlaying && progressContainer && progressBar) {
+        progressContainer.classList.remove('hidden');
+        const progressPercent = (track.progress / track.duration) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+
+        if (currentTime) currentTime.textContent = this.formatTime(track.progress);
+        if (totalTime) {
+          totalTime.textContent = this.formatTime(track.duration);
+          totalTime.dataset.duration = track.duration.toString();
+        }
+      } else if (progressContainer) {
+        progressContainer.classList.add('hidden');
+      }
+
+      // Update volume (only if not dragging)
+      if (data.volume !== null && !this.isDraggingVolume) {
+        this.updateVolumeDisplay(data.volume);
+      }
+
+      // Update shuffle and repeat states
+      this.shuffleState = data.shuffle || false;
+      this.repeatMode = data.repeatMode || 'off';
+      this.updateShuffleButton();
+      this.updateRepeatButton();
+
+      // Update device info
+      if (data.device && deviceName) {
+        deviceName.textContent = data.device.name;
+        deviceInfo?.classList.remove('hidden');
+      } else if (deviceInfo) {
+        deviceInfo.classList.add('hidden');
+      }
+
+      // Show controls and volume
+      if (playbackControls && !this.isMinimized) {
+        playbackControls.classList.remove('hidden');
+      }
+      if (volumeContainer && !this.isMinimized) {
+        volumeContainer.classList.remove('hidden');
+      }
+
+      this.updatePlayPauseButton(data.isPlaying);
+
+      // Check if track changed to update the display smoothly
+      if (this.lastTrackId !== track.name + track.artist) {
+        this.lastTrackId = track.name + track.artist;
+        this.player.classList.add('animate-pulse');
+        setTimeout(() => {
+          this.player.classList.remove('animate-pulse');
+        }, 1000);
+      }
+    }
+
+    private showNotPlaying() {
+      const trackName = document.getElementById('track-name');
+      const artistName = document.getElementById('artist-name');
+      const albumImage = document.getElementById('album-image');
+      const musicIcon = document.getElementById('music-icon');
+      const spotifyLink = document.getElementById('spotify-link');
+      const progressContainer = document.getElementById('progress-container');
+      const volumeContainer = document.getElementById('volume-container');
+      const playbackControls = document.getElementById('playback-controls');
+      const deviceInfo = document.getElementById('device-info');
+
+      if (trackName) trackName.textContent = 'Not playing';
+      if (artistName) artistName.textContent = 'Connect to Spotify';
+
+      if (albumImage && musicIcon) {
+        albumImage.classList.add('hidden');
+        musicIcon.classList.remove('hidden');
+      }
+
+      if (spotifyLink) spotifyLink.classList.add('hidden');
+      if (progressContainer) progressContainer.classList.add('hidden');
+      if (volumeContainer) volumeContainer.classList.add('hidden');
+      if (playbackControls) playbackControls.classList.add('hidden');
+      if (deviceInfo) deviceInfo.classList.add('hidden');
+
+      this.isPlaying = false;
+    }
+
+    private showSetupRequired() {
+      const trackName = document.getElementById('track-name');
+      const artistName = document.getElementById('artist-name');
+      const albumImage = document.getElementById('album-image');
+      const musicIcon = document.getElementById('music-icon');
+      const spotifyLink = document.getElementById('spotify-link');
+      const progressContainer = document.getElementById('progress-container');
+      const volumeContainer = document.getElementById('volume-container');
+      const playbackControls = document.getElementById('playback-controls');
+      const deviceInfo = document.getElementById('device-info');
+
+      if (trackName) trackName.textContent = 'Setup Required';
+      if (artistName) artistName.textContent = 'Configure Spotify integration';
+
+      if (albumImage && musicIcon) {
+        albumImage.classList.add('hidden');
+        musicIcon.classList.remove('hidden');
+      }
+
+      if (spotifyLink) spotifyLink.classList.add('hidden');
+      if (progressContainer) progressContainer.classList.add('hidden');
+      if (volumeContainer) volumeContainer.classList.add('hidden');
+      if (playbackControls) playbackControls.classList.add('hidden');
+      if (deviceInfo) deviceInfo.classList.add('hidden');
+
+      // Make the player clickable to go to setup
+      this.player.style.cursor = 'pointer';
+      this.player.onclick = () => {
+        window.open('/auth/spotify/callback', '_blank');
+      };
+    }
+
+    private showAuthorizationError() {
+      const trackName = document.getElementById('track-name');
+      const artistName = document.getElementById('artist-name');
+      const albumImage = document.getElementById('album-image');
+      const musicIcon = document.getElementById('music-icon');
+      const spotifyLink = document.getElementById('spotify-link');
+      const progressContainer = document.getElementById('progress-container');
+      const volumeContainer = document.getElementById('volume-container');
+      const playbackControls = document.getElementById('playback-controls');
+      const deviceInfo = document.getElementById('device-info');
+
+      if (trackName) trackName.textContent = 'Authorization Required';
+      if (artistName) artistName.textContent = 'Click to reauthorize Spotify access';
+
+      if (albumImage && musicIcon) {
+        albumImage.classList.add('hidden');
+        musicIcon.classList.remove('hidden');
+      }
+
+      if (spotifyLink) spotifyLink.classList.add('hidden');
+      if (progressContainer) progressContainer.classList.add('hidden');
+      if (volumeContainer) volumeContainer.classList.add('hidden');
+      if (playbackControls) playbackControls.classList.add('hidden');
+      if (deviceInfo) deviceInfo.classList.add('hidden');
+
+      // Make the player clickable to start reauthorization
+      this.player.style.cursor = 'pointer';
+      this.player.onclick = async () => {
+        try {
+          const response = await fetch('/api/spotify/reauthorize');
+          const data = await response.json();
+          if (data.authUrl) {
+            window.open(data.authUrl, '_blank');
+          }
+        } catch (error) {
+          console.error('Error getting reauth URL:', error);
+        }
+      };
+    }
+
+    private startUpdating() {
+      // Update immediately
+      this.updateCurrentlyPlaying();
+
+      // Update every 5 seconds
+      this.updateInterval = window.setInterval(() => {
+        this.updateCurrentlyPlaying();
+      }, 5000);
+    }
+
+    public destroy() {
+      if (this.updateInterval) {
+        clearInterval(this.updateInterval);
+      }
+    }
+  }
+
+  // Initialize player when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    new SpotifyPlayer();
+  });
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    // Player cleanup happens automatically
+  });
+</script>
+
+<style>
+  #spotify-player {
+    backdrop-filter: blur(10px);
+    background-color: rgba(var(--card), 0.95);
+  }
+
+  /* Volume Slider Styles */
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .slider::-webkit-slider-track {
+    background: hsl(var(--secondary));
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background: hsl(var(--primary));
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
+
+  .slider::-webkit-slider-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+    transform: scale(1.1);
+  }
+
+  .slider::-moz-range-track {
+    background: hsl(var(--secondary));
+    height: 4px;
+    border-radius: 2px;
+    border: none;
+  }
+
+  .slider::-moz-range-thumb {
+    background: hsl(var(--primary));
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
+
+  .slider::-moz-range-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+    transform: scale(1.1);
+  }
+
+  /* Progress bar cursor */
+  #progress-track {
+    position: relative;
+  }
+
+  #progress-track:hover #progress-bar {
+    background: hsl(var(--primary) / 0.8);
+  }
+
+  /* Button hover effects */
+  .control-btn:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+  }
+
+  /* Active state for shuffle and repeat buttons */
+  #shuffle-btn.text-primary,
+  #repeat-btn.text-primary {
+    background: hsl(var(--primary) / 0.1);
+    border-radius: 4px;
+  }
+
+  /* Modal backdrop animation */
+  .modal-backdrop {
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Device and playlist item hover effects */
+  .device-item:hover,
+  .playlist-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    #spotify-player {
+      width: calc(100vw - 2rem);
+      right: 1rem;
+      left: 1rem;
+    }
+
+    /* Adjust control buttons for mobile */
+    .control-btn {
+      padding: 8px;
+    }
+
+    /* Make volume slider easier to use on mobile */
+    .slider::-webkit-slider-thumb {
+      height: 16px;
+      width: 16px;
+    }
+
+    .slider::-moz-range-thumb {
+      height: 16px;
+      width: 16px;
+    }
+  }
+
+  /* Loading states */
+  .loading {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Error states */
+  .error-text {
+    color: hsl(var(--destructive));
+  }
+
+  /* Success states */
+  .success-text {
+    color: hsl(var(--primary));
+  }
+</style>

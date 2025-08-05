@@ -6,4 +6,8 @@ export default defineConfig({
   integrations: [tailwind(), mdx()],
   site: 'https://your-domain.com',
   output: 'static',
+  server: {
+    port: 9003,
+    host: true
+  }
 });

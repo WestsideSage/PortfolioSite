@@ -1,0 +1,189 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getAuthUrl, exchangeCodeForTokens } from '../../../lib/spotify';
+
+let authUrl = '';
+let tokens: any = null;
+let error = '';
+let debugInfo = '';
+
+// Debug environment variables
+const clientId = import.meta.env.PUBLIC_SPOTIFY_CLIENT_ID;
+const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
+const redirectUri = import.meta.env.PUBLIC_SPOTIFY_REDIRECT_URI;
+
+debugInfo = `Client ID: ${clientId ? '✓ Set' : '✗ Missing'}, Client Secret: ${clientSecret ? '✓ Set' : '✗ Missing'}, Redirect URI: ${redirectUri || 'Missing'}`;
+
+// Handle OAuth callback
+const url = new URL(Astro.request.url);
+const code = url.searchParams.get('code');
+const errorParam = url.searchParams.get('error');
+
+if (errorParam) {
+  error = `Spotify authorization error: ${errorParam}`;
+} else if (code) {
+  try {
+    tokens = await exchangeCodeForTokens(code);
+    if (tokens?.error) {
+      error = `Token exchange error: ${tokens.error_description || tokens.error}`;
+    }
+  } catch (e) {
+    error = `Failed to exchange code for tokens: ${e instanceof Error ? e.message : 'Unknown error'}`;
+  }
+} else {
+  // Generate auth URL for initial authorization
+  try {
+    authUrl = getAuthUrl();
+  } catch (e) {
+    error = `Failed to generate auth URL: ${e instanceof Error ? e.message : 'Unknown error'}`;
+  }
+}
+---
+
+<Layout title="Spotify Setup - Nova Portfolio">
+  <main class="container mx-auto px-4 py-8 max-w-2xl">
+    <div class="bg-card rounded-lg shadow-lg p-6">
+      <h1 class="text-3xl font-bold mb-6">Spotify Integration Setup</h1>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <h3 class="font-semibold text-blue-900 mb-2">Debug Info:</h3>
+        <p class="text-blue-800 text-sm font-mono">{debugInfo}</p>
+      </div>
+
+      {
+        error && (
+          <div class="bg-destructive/10 border border-destructive/20 rounded-lg p-4 mb-6">
+            <p class="text-destructive font-medium">Error:</p>
+            <p class="text-destructive">{error}</p>
+          </div>
+        )
+      }
+
+      {
+        !code && !error && (
+          <div class="space-y-6">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h2 class="font-semibold text-blue-900 mb-2">Prerequisites</h2>
+              <ol class="list-decimal list-inside space-y-2 text-blue-800 text-sm">
+                <li>
+                  Create a Spotify app at{' '}
+                  <a
+                    href="https://developer.spotify.com/dashboard"
+                    target="_blank"
+                    class="underline hover:no-underline"
+                  >
+                    Spotify Developer Dashboard
+                  </a>
+                </li>
+                <li>
+                  Add redirect URI:{' '}
+                  <code class="bg-blue-100 px-2 py-1 rounded">
+                    http://127.0.0.1:9003/auth/spotify/callback
+                  </code>
+                </li>
+                <li>
+                  Copy your Client ID and Client Secret to your{' '}
+                  <code class="bg-blue-100 px-2 py-1 rounded">.env</code> file
+                </li>
+              </ol>
+            </div>
+
+            {authUrl && (
+              <div class="text-center">
+                <p class="mb-4 text-muted-foreground">
+                  Click the button below to authorize the application with Spotify:
+                </p>
+                <a
+                  href={authUrl}
+                  class="inline-block bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-lg transition-colors"
+                >
+                  Connect with Spotify
+                </a>
+              </div>
+            )}
+          </div>
+        )
+      }
+
+      {
+        tokens && !tokens?.error && (
+          <div class="space-y-6">
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+              <h2 class="font-semibold text-green-900 mb-2">✅ Success!</h2>
+              <p class="text-green-800 mb-4">
+                Authorization successful. Add this refresh token to your{' '}
+                <code class="bg-green-100 px-2 py-1 rounded">.env</code> file:
+              </p>
+            </div>
+
+            <div class="bg-secondary rounded-lg p-4">
+              <h3 class="font-medium mb-2">Refresh Token:</h3>
+              <div class="bg-background border rounded p-3 font-mono text-sm break-all">
+                {tokens?.refresh_token}
+              </div>
+              <button
+                onclick={`navigator.clipboard.writeText('${tokens?.refresh_token}')`}
+                class="mt-2 text-sm bg-primary text-primary-foreground px-3 py-1 rounded hover:bg-primary/90 transition-colors"
+              >
+                Copy to Clipboard
+              </button>
+            </div>
+
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <h3 class="font-semibold text-yellow-900 mb-2">⚠️ Important:</h3>
+              <ul class="list-disc list-inside space-y-1 text-yellow-800 text-sm">
+                <li>Keep this refresh token secure - don't commit it to version control</li>
+                <li>
+                  Add it to your <code class="bg-yellow-100 px-2 py-1 rounded">.env</code> file as{' '}
+                  <code class="bg-yellow-100 px-2 py-1 rounded">SPOTIFY_REFRESH_TOKEN</code>
+                </li>
+                <li>The music player will now work on your site</li>
+              </ul>
+            </div>
+
+            <div class="text-center">
+              <a
+                href="/"
+                class="inline-block bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                Go to Homepage
+              </a>
+            </div>
+          </div>
+        )
+      }
+
+      {
+        !authUrl && !tokens && !code && (
+          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <p class="text-yellow-800">
+              <strong>Configuration Required:</strong> Please set up your Spotify app credentials in
+              the <code class="bg-yellow-100 px-2 py-1 rounded">.env</code> file first.
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Add copy-to-clipboard functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyButtons = document.querySelectorAll('[onclick*="navigator.clipboard"]');
+    copyButtons.forEach((button) => {
+      button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const text = (e.target as HTMLElement).getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+        if (text) {
+          try {
+            await navigator.clipboard.writeText(text);
+            alert('Copied to clipboard!');
+          } catch (err) {
+            console.error('Failed to copy: ', err);
+          }
+        }
+      });
+    });
+  });
+</script>

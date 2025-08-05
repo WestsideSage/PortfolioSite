@@ -19,10 +19,13 @@
   },
   "lint-staged": {
     "apps/*/src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+      "eslint --fix --no-error-on-unmatched-pattern",
       "prettier --write"
     ],
-    "*.{json,md,mdx,astro,css,scss}": [
+    "*.{json,md,mdx,css,scss}": [
+      "prettier --write"
+    ],
+    "*.astro": [
       "prettier --write"
     ]
   },
