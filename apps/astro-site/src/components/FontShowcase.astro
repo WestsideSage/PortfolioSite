@@ -1,0 +1,286 @@
+---
+// FontShowcase.astro - Component to demonstrate the Emerald Sanctuary font system
+---
+
+<div class="font-showcase max-w-4xl mx-auto p-8 space-y-12">
+  <!-- Hero/Display Font - Bricolage Grotesque -->
+  <section class="space-y-4">
+    <h1
+      class="hero-title text-transparent"
+      style="font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; background-image: linear-gradient(135deg, hsl(142, 18%, 38%) 0%, hsl(156, 50%, 45%) 50%, hsl(142, 12%, 58%) 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+    >
+      Emerald Sanctuary
+    </h1>
+    <p
+      class="hero-subtitle text-muted-foreground"
+      style="font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;"
+    >
+      Calm-but-quirky curves echo natural forms
+    </p>
+    <div class="text-sm text-muted-foreground font-body">
+      Font: Bricolage Grotesque • Use: Logo & hero headlines
+    </div>
+  </section>
+
+  <!-- Heading Font - Clash Grotesk -->
+  <section class="space-y-4">
+    <h2
+      class="section-heading text-foreground"
+      style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 2.5rem; font-weight: 600; line-height: 1.2;"
+    >
+      Confident Typography
+    </h2>
+    <h3
+      class="subsection-heading text-foreground"
+      style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 1.875rem; font-weight: 600; line-height: 1.3;"
+    >
+      Modern web typography that pops
+    </h3>
+    <h4
+      class="card-heading text-foreground"
+      style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 1.5rem; font-weight: 600; line-height: 1.4;"
+    >
+      Tech-meets-editorial aesthetic
+    </h4>
+    <div class="text-sm text-muted-foreground font-body">
+      Font: Clash Grotesk • Use: Section headings
+    </div>
+  </section>
+
+  <!-- Body Font - Inter Variable -->
+  <section class="space-y-4">
+    <div
+      class="body-large text-foreground"
+      style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1.25rem; line-height: 1.6;"
+    >
+      This is large body text using Inter Variable. The font's optical sizing automatically adjusts
+      for optimal readability at this size, while its neutral character lets emerald accents
+      breathe.
+    </div>
+    <div
+      class="body-regular text-foreground"
+      style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1rem; line-height: 1.7;"
+    >
+      This is regular body text that maintains excellent readability across all viewports. Inter's
+      comprehensive character set and careful spacing make it perfect for long-form content and
+      technical documentation.
+    </div>
+    <div
+      class="body-small text-muted-foreground"
+      style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; line-height: 1.6;"
+    >
+      Small body text remains crisp and readable even at reduced sizes, thanks to Inter's thoughtful
+      design and variable font technology.
+    </div>
+    <div class="text-sm text-muted-foreground font-body">
+      Font: Inter Variable • Use: Body text & navigation
+    </div>
+  </section>
+
+  <!-- Code/Stats Font - Geist Mono -->
+  <section class="space-y-4">
+    <div
+      class="stats-block text-primary"
+      style="font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em;"
+    >
+      Portfolio Statistics
+    </div>
+    <div
+      class="caption text-muted-foreground"
+      style="font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; font-size: 0.875rem; line-height: 1.6;"
+    >
+      Geist Mono is used for code snippets and stat blocks, providing a modern, clean monospace
+      experience perfect for technical content.
+    </div>
+    <div
+      class="metadata text-muted-foreground"
+      style="font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;"
+    >
+      Code Snippets • Stat Blocks • Technical Data
+    </div>
+    <div class="text-sm text-muted-foreground font-body">
+      Font: Geist Mono • Use: Code snippets / stat blocks
+    </div>
+  </section>
+
+  <!-- Code Font - Geist Mono -->
+  <section class="space-y-4">
+    <div
+      class="text-lg font-heading text-foreground"
+      style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;"
+    >
+      Code Examples
+    </div>
+    <div class="space-y-2">
+      <p
+        class="body-regular text-foreground"
+        style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;"
+      >
+        Inline code like <code
+          class="code-inline"
+          style="font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; background: hsl(var(--secondary)); padding: 0.125rem 0.25rem; border-radius: 0.25rem;"
+          >const sanctuary = 'emerald'</code
+        > integrates seamlessly with body text.
+      </p>
+      <pre
+        class="code-block bg-secondary text-secondary-foreground p-4 rounded-lg overflow-x-auto"
+        style="font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace;"><code>{`// Geist Mono for code blocks
+function createSanctuary() {
+  return {
+    theme: 'emerald',
+    typography: 'modern',
+    feel: 'mystical'
+  };
+}`}</code></pre>
+    </div>
+    <div class="text-sm text-muted-foreground font-body">
+      Font: Geist Mono • Use: Code snippets and technical content
+    </div>
+  </section>
+
+  <!-- Flourish Font - Fraunces -->
+  <section class="space-y-6">
+    <div
+      class="pull-quote text-primary"
+      style="font-family: 'Fraunces', ui-serif, Georgia, serif; font-size: 1.5rem; font-weight: 400; line-height: 1.4; font-style: italic;"
+    >
+      "Design is not just what it looks like and feels like. Design is how it works."
+    </div>
+    <div class="flex items-center gap-8">
+      <div
+        class="big-number text-accent"
+        style="font-family: 'Fraunces', ui-serif, Georgia, serif; font-size: 4rem; font-weight: 900; line-height: 0.9;"
+      >
+        42
+      </div>
+      <div
+        class="elegant-accent text-foreground"
+        style="font-family: 'Fraunces', ui-serif, Georgia, serif; font-size: 1.125rem; font-weight: 400; line-height: 1.5;"
+      >
+        Projects completed with botanical-inspired typography
+      </div>
+    </div>
+    <div class="text-sm text-muted-foreground font-body">
+      Font: Fraunces Variable • Use: Pull quotes & special numerals
+    </div>
+  </section>
+
+  <!-- Font Hierarchy Demonstration -->
+  <section class="content-section space-y-6 p-6 bg-card rounded-lg border">
+    <h2
+      style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 2rem; font-weight: 600;"
+    >
+      Complete Font Hierarchy
+    </h2>
+    <h3
+      style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 1.5rem; font-weight: 600;"
+    >
+      This section demonstrates font pairing
+    </h3>
+
+    <p
+      style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; line-height: 1.7;"
+    >
+      This paragraph uses the default body font (Inter Variable) and demonstrates how all fonts work
+      together harmoniously. The <code
+        style="font-family: 'Geist Mono', ui-monospace, SFMono-Regular, monospace; background: hsl(var(--secondary)); padding: 0.125rem 0.25rem; border-radius: 0.25rem;"
+        >code snippets</code
+      > use Geist Mono, while headings above use Clash Grotesk.
+    </p>
+
+    <blockquote
+      class="border-l-4 border-primary pl-4"
+      style="font-family: 'Fraunces', ui-serif, Georgia, serif; font-style: italic; font-size: 1.125rem; line-height: 1.6;"
+    >
+      Blockquotes use the elegant Fraunces font to add sophistication and visual interest to quoted
+      content.
+    </blockquote>
+
+    <div
+      class="caption"
+      style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; color: hsl(var(--muted-foreground));"
+    >
+      This caption now uses Inter Variable as the body font, maintaining consistency with the
+      hierarchy.
+    </div>
+  </section>
+
+  <!-- Responsive Examples -->
+  <section class="space-y-4">
+    <h2
+      class="section-heading text-foreground"
+      style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 2rem; font-weight: 600;"
+    >
+      Responsive Typography
+    </h2>
+    <p
+      class="body-regular text-muted-foreground"
+      style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; line-height: 1.7;"
+    >
+      All fonts scale appropriately across different screen sizes, maintaining readability and
+      visual hierarchy from mobile to desktop.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+      <div class="p-4 bg-secondary rounded">
+        <div
+          class="font-semibold mb-2"
+          style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;"
+        >
+          Mobile
+        </div>
+        <div style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;">
+          Optimized scaling for touch devices
+        </div>
+      </div>
+      <div class="p-4 bg-secondary rounded">
+        <div
+          class="font-semibold mb-2"
+          style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;"
+        >
+          Tablet
+        </div>
+        <div style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;">
+          Balanced proportions for medium screens
+        </div>
+      </div>
+      <div class="p-4 bg-secondary rounded">
+        <div
+          class="font-semibold mb-2"
+          style="font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;"
+        >
+          Desktop
+        </div>
+        <div style="font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;">
+          Full typographic expression
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Font Loading Debug Section -->
+  <section class="space-y-4 p-4 bg-muted rounded-lg">
+    <h3 class="text-lg font-semibold text-foreground">Font Loading Debug</h3>
+    <div class="space-y-2 text-sm">
+      <div style="font-family: 'Bricolage Grotesque', sans-serif;">Bricolage Grotesque Test</div>
+      <div style="font-family: 'Clash Grotesk', sans-serif;">Clash Grotesk Test</div>
+      <div style="font-family: 'Inter Variable', sans-serif;">Inter Variable Test</div>
+      <div style="font-family: 'Geist Mono', monospace;">Geist Mono Test</div>
+      <div style="font-family: 'Fraunces', serif; font-weight: 400;">Fraunces Regular Test</div>
+      <div style="font-family: 'Fraunces', serif; font-weight: 700;">Fraunces Bold Test</div>
+      <div style="font-family: 'Fraunces', serif; font-style: italic;">Fraunces Italic Test</div>
+    </div>
+  </section>
+</div>
+
+<style>
+  /* Additional showcase-specific styling */
+  .font-showcase {
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+    border-radius: 1rem;
+  }
+
+  /* Ensure proper font loading */
+  .hero-title {
+    font-display: swap;
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+// ThemeToggle.astro - Dark/Light theme toggle component
+---
+
+<button
+  id="theme-toggle"
+  class="theme-toggle-button"
+  aria-label="Toggle dark/light theme"
+  title="Toggle theme"
+>
+  <!-- Light mode icon (sun) -->
+  <svg id="sun-icon" class="theme-icon sun-icon" fill="currentColor" viewBox="0 0 24 24">
+    <path
+      d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM18.894 17.834a.75.75 0 00-1.06 1.06l-1.591-1.59a.75.75 0 111.06-1.061l1.591 1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
+    ></path>
+  </svg>
+
+  <!-- Dark mode icon (moon) -->
+  <svg id="moon-icon" class="theme-icon moon-icon hidden" fill="currentColor" viewBox="0 0 24 24">
+    <path
+      fill-rule="evenodd"
+      d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+      clip-rule="evenodd"></path>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle-button {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 10000;
+
+    /* Emerald Sanctuary styling */
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--border), 0.3);
+    background: rgba(var(--background), 0.8);
+    backdrop-filter: blur(10px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .theme-toggle-button:hover {
+    background: rgba(var(--background), 0.95);
+    border-color: rgba(var(--primary), 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(var(--primary), 0.2);
+  }
+
+  .theme-toggle-button:active {
+    transform: scale(0.95);
+    transition-duration: 0.1s;
+  }
+
+  .theme-toggle-button:focus {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  .theme-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: hsl(var(--foreground));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  .theme-toggle-button:hover .theme-icon {
+    color: hsl(var(--primary));
+    transform: rotate(15deg) scale(1.1);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  /* Animation for icon transitions */
+  .theme-icon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.8);
+    animation: iconFadeIn 0.3s ease forwards;
+  }
+
+  @keyframes iconFadeIn {
+    to {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .theme-toggle-button {
+      top: 0.75rem;
+      left: 0.75rem;
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .theme-icon {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+</style>
+
+<script>
+  class ThemeToggle {
+    private button: HTMLButtonElement;
+    private sunIcon: SVGElement;
+    private moonIcon: SVGElement;
+    private currentTheme: 'light' | 'dark';
+
+    constructor() {
+      this.button = document.getElementById('theme-toggle') as HTMLButtonElement;
+      this.sunIcon = document.getElementById('sun-icon') as unknown as SVGElement;
+      this.moonIcon = document.getElementById('moon-icon') as unknown as SVGElement;
+
+      // Get initial theme
+      this.currentTheme = this.getStoredTheme() || this.getSystemTheme();
+
+      this.init();
+    }
+
+    private init(): void {
+      // Apply initial theme
+      this.applyTheme(this.currentTheme);
+      this.updateIcon();
+
+      // Add click listener
+      this.button.addEventListener('click', () => this.toggleTheme());
+
+      // Listen for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          this.currentTheme = e.matches ? 'dark' : 'light';
+          this.applyTheme(this.currentTheme);
+          this.updateIcon();
+        }
+      });
+    }
+
+    private getStoredTheme(): 'light' | 'dark' | null {
+      return localStorage.getItem('theme') as 'light' | 'dark' | null;
+    }
+
+    private getSystemTheme(): 'light' | 'dark' {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    private toggleTheme(): void {
+      this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+      this.applyTheme(this.currentTheme);
+      this.updateIcon();
+      localStorage.setItem('theme', this.currentTheme);
+
+      // Dispatch custom event for other components
+      window.dispatchEvent(
+        new CustomEvent('theme-changed', {
+          detail: { theme: this.currentTheme },
+        })
+      );
+    }
+
+    private applyTheme(theme: 'light' | 'dark'): void {
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(theme);
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    private updateIcon(): void {
+      // Add smooth fade transition for icon changes
+      const currentIcon = this.currentTheme === 'light' ? this.moonIcon : this.sunIcon;
+      const nextIcon = this.currentTheme === 'light' ? this.sunIcon : this.moonIcon;
+
+      // Fade out current icon
+      currentIcon.style.opacity = '0';
+      currentIcon.style.transform = 'rotate(90deg) scale(0.8)';
+
+      setTimeout(() => {
+        currentIcon.classList.add('hidden');
+        nextIcon.classList.remove('hidden');
+
+        // Fade in next icon
+        requestAnimationFrame(() => {
+          nextIcon.style.opacity = '1';
+          nextIcon.style.transform = 'rotate(0deg) scale(1)';
+        });
+      }, 150);
+    }
+  }
+
+  // Initialize theme toggle when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    new ThemeToggle();
+  });
+
+  // Also initialize immediately if DOM is already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new ThemeToggle());
+  } else {
+    new ThemeToggle();
+  }
+</script>

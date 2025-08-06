@@ -104,9 +104,14 @@ export default {
         'gradient-domain-expansion': 'radial-gradient(circle at center, hsl(156, 48%, 64%) 0%, hsl(142, 18%, 38%) 30%, hsl(142, 30%, 18%) 70%, hsl(142, 35%, 12%) 100%)',
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['Playfair Display', 'ui-serif', 'serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+        // Emerald Sanctuary Font Hierarchy (exact specification)
+        'display': ['Bricolage Grotesque', 'ui-sans-serif', 'system-ui', 'sans-serif'], // Logo & hero headlines
+        'heading': ['Clash Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'], // Section headings
+        'sans': ['Inter Variable', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'], // Body text & navigation
+        'body': ['Inter Variable', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'], // Body text (alias)
+        'mono': ['Geist Mono', 'ui-monospace', 'monospace'], // Code snippets / stat blocks
+        'serif': ['Fraunces Variable', 'Fraunces', 'ui-serif', 'serif'], // Pull quotes & special numerals
+        'flourish': ['Fraunces Variable', 'Fraunces', 'ui-serif', 'serif'], // Pull quotes & special numerals (alias)
       },
       borderRadius: {
         lg: "var(--radius)",

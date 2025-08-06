@@ -1,7 +1,20 @@
 /**
- * Emerald Sanctuary Design System - Color Tokens
- *
- * A comprehensive sage and emerald-based color palette
+ * Emerald Sanctuary Design System - Color Token  // Neutral Palette - The sanctuary's foundation
+  neutral: {
+    0: 'hsl(0, 0%, 100%)', // Pure white
+    50: 'hsl(142, 8%, 97%)', // Sage whisper
+    100: 'hsl(142, 6%, 92%)', // Sage mist
+    200: 'hsl(142, 5%, 84%)', // Light sage neutral
+    300: 'hsl(142, 4%, 68%)', // Sage neutral
+    400: 'hsl(142, 3%, 52%)', // Mid sage neutral
+    500: 'hsl(142, 2%, 36%)', // Dark sage neutral
+    600: 'hsl(142, 3%, 28%)', // Deep neutral
+    700: 'hsl(142, 4%, 22%)', // Shadow neutral
+    800: 'hsl(142, 5%, 16%)', // Dark shadow
+    900: 'hsl(142, 8%, 10%)', // Void neutral
+    950: 'hsl(142, 10%, 6%)', // Deep void
+    975: 'hsl(0, 0%, 4%)', // True black - Accessible black
+  },rehensive sage and emerald-based color palette
  * inspired by mystical sanctuaries and ancient wisdom
  */
 
@@ -101,29 +114,29 @@ export const semanticColors = {
     ring: emeraldSanctuary.emerald[500],
   },
 
-  // Dark theme mappings
+  // Dark theme mappings - True Black Base
   dark: {
-    background: emeraldSanctuary.neutral[950],
-    foreground: emeraldSanctuary.neutral[50],
+    background: 'hsl(0, 0%, 4%)', // True black background
+    foreground: 'hsl(0, 0%, 98%)', // Pure white text
 
-    primary: emeraldSanctuary.emerald[400],
-    'primary-foreground': emeraldSanctuary.neutral[950],
+    primary: emeraldSanctuary.emerald[400], // Vibrant emerald primary
+    'primary-foreground': 'hsl(0, 0%, 4%)', // Black on emerald
 
-    secondary: emeraldSanctuary.sage[800],
-    'secondary-foreground': emeraldSanctuary.sage[100],
+    secondary: emeraldSanctuary.sage[800], // Dark sage secondary
+    'secondary-foreground': 'hsl(0, 0%, 95%)', // Near white on sage
 
-    accent: emeraldSanctuary.emerald[300],
-    'accent-foreground': emeraldSanctuary.neutral[950],
+    accent: emeraldSanctuary.emerald[300], // Bright emerald accent
+    'accent-foreground': 'hsl(0, 0%, 4%)', // Black on bright emerald
 
-    muted: emeraldSanctuary.neutral[800],
-    'muted-foreground': emeraldSanctuary.neutral[300],
+    muted: 'hsl(142, 8%, 12%)', // Dark gray with sage hint
+    'muted-foreground': 'hsl(142, 12%, 75%)', // Light sage gray
 
-    card: emeraldSanctuary.neutral[900],
-    'card-foreground': emeraldSanctuary.neutral[50],
+    card: 'hsl(0, 0%, 6%)', // Slightly elevated black
+    'card-foreground': 'hsl(0, 0%, 98%)', // Pure white on cards
 
-    border: emeraldSanctuary.sage[700],
-    input: emeraldSanctuary.sage[700],
-    ring: emeraldSanctuary.emerald[400],
+    border: emeraldSanctuary.sage[700], // Emerald accented borders
+    input: 'hsl(142, 20%, 20%)', // Dark sage inputs
+    ring: emeraldSanctuary.emerald[400], // Bright emerald focus rings
   },
 } as const;
 

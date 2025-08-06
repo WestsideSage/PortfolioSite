@@ -3,6 +3,7 @@ import '../styles/globals.css';
 import Navigation from '../components/Navigation.astro';
 import SpotifyPlayer from '../components/SpotifyPlayer.astro';
 import GojoIntro from '../components/GojoIntro.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title: string;
@@ -27,9 +28,23 @@ const currentPath = Astro.url.pathname;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <!-- Theme initialization script (runs before body renders) -->
+    <script is:inline>
+      (function () {
+        const getStoredTheme = () => localStorage.getItem('theme');
+        const getSystemTheme = () =>
+          window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+        const theme = getStoredTheme() || getSystemTheme();
+        document.documentElement.classList.add(theme);
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
-  <body class="min-h-screen bg-background text-foreground">
+  <body class="min-h-screen bg-background text-foreground transition-colors duration-200">
     {showIntro && <GojoIntro />}
+    <ThemeToggle />
     <Navigation currentPath={currentPath} />
     <slot />
     <SpotifyPlayer />

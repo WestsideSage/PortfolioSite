@@ -1,0 +1,301 @@
+/* 
+  Emerald Sanctuary Font System
+  ============================
+  
+  A curated typography system for the Emerald Sanctuary brand.
+  Each font serves a specific purpose and aesthetic goal.
+*/
+
+/* Font feature settings for optimal rendering */
+.font-display {
+  font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1;
+}
+
+.font-heading {
+  font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1;
+  letter-spacing: -0.025em; /* Tighter tracking for headings */
+}
+
+.font-body {
+  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1,
+    'tnum' 1;
+  font-variation-settings: 'opsz' auto; /* Optical sizing */
+}
+
+.font-mono {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1,
+    'tnum' 1;
+}
+
+.font-flourish {
+  font-family: 'Fraunces Variable', 'Fraunces', ui-serif, serif;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1;
+  font-variation-settings:
+    'SOFT' 100,
+    'WONK' 0; /* Soft curves, no wonkiness by default */
+}
+
+/* Specific use cases with optimized settings */
+
+/* Hero/Logo styling with Bricolage Grotesque */
+.hero-title {
+  font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 3.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: 4.5rem;
+  }
+}
+
+.hero-subtitle {
+  font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 768px) {
+  .hero-subtitle {
+    font-size: 1.5rem;
+  }
+}
+
+/* Section headings with Clash Grotesk */
+.section-heading {
+  font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .section-heading {
+    font-size: 2.25rem;
+  }
+}
+
+.subsection-heading {
+  font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .subsection-heading {
+    font-size: 1.5rem;
+  }
+}
+
+.card-heading {
+  font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  .card-heading {
+    font-size: 1.25rem;
+  }
+}
+
+/* Body text with Inter Variable */
+.body-large {
+  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .body-large {
+    font-size: 1.25rem;
+  }
+}
+
+.body-regular {
+  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.body-small {
+  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Alternative body text should also use Inter Variable, not Geist Sans */
+.caption {
+  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.stats-block {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+.metadata {
+  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Code snippets with Geist Mono */
+.code-inline {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.875rem;
+  padding: 0.375rem 0.375rem;
+  border-radius: 0.375rem;
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+.code-block {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 0.875rem;
+  line-height: 1.625;
+}
+
+/* Elegant flourishes with Fraunces */
+.pull-quote {
+  font-family: 'Fraunces Variable', 'Fraunces', ui-serif, serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.3;
+  font-variation-settings:
+    'SOFT' 100,
+    'WONK' 1; /* Soft curves with subtle wonkiness */
+}
+
+@media (min-width: 768px) {
+  .pull-quote {
+    font-size: 1.875rem;
+  }
+}
+
+.big-number {
+  font-family: 'Fraunces Variable', 'Fraunces', ui-serif, serif;
+  font-size: 3.75rem;
+  font-weight: 700;
+  line-height: 0.8;
+  font-variation-settings:
+    'SOFT' 0,
+    'WONK' 0; /* Clean and strong for numbers */
+}
+
+@media (min-width: 768px) {
+  .big-number {
+    font-size: 6rem;
+  }
+}
+
+.elegant-accent {
+  font-family: 'Fraunces Variable', 'Fraunces', ui-serif, serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  font-variation-settings:
+    'SOFT' 100,
+    'WONK' 0;
+}
+
+/* Responsive font sizing utilities */
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 1.875rem;
+  }
+
+  .section-heading {
+    font-size: 1.25rem;
+  }
+
+  .pull-quote {
+    font-size: 1.25rem;
+  }
+
+  .big-number {
+    font-size: 2.25rem;
+  }
+}
+
+/* Variable font axis utilities for fine control */
+.font-soft {
+  font-variation-settings: 'SOFT' 100;
+}
+
+.font-wonky {
+  font-variation-settings: 'WONK' 1;
+}
+
+.font-optical-small {
+  font-variation-settings: 'opsz' 14;
+}
+
+.font-optical-large {
+  font-variation-settings: 'opsz' 32;
+}
+
+/* Font pairing examples */
+.content-section {
+  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+.content-section h1,
+.content-section h2,
+.content-section h3,
+.content-section h4,
+.content-section h5,
+.content-section h6 {
+  font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+
+.content-section code {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+}
+
+.content-section blockquote {
+  font-family: 'Fraunces Variable', 'Fraunces', ui-serif, serif;
+  font-style: italic;
+}
+
+.content-section .caption,
+.content-section .metadata {
+  font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+}

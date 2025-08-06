@@ -52,9 +52,13 @@ export const DESIGN_SYSTEM_CONFIG = {
   },
   typography: {
     fontFamily: {
-      sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-      serif: ['Playfair Display', 'ui-serif', 'serif'],
-      mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+      display: ['Bricolage Grotesque', 'ui-sans-serif', 'system-ui', 'sans-serif'], // Logo & hero headlines
+      heading: ['Clash Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'], // Section headings
+      sans: ['Inter Variable', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'], // Body text & navigation
+      body: ['Inter Variable', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'], // Body text & navigation
+      mono: ['Geist Mono', 'ui-monospace', 'monospace'], // Code snippets / stat blocks
+      serif: ['Fraunces Variable', 'Fraunces', 'ui-serif', 'serif'], // Pull quotes & special numerals
+      flourish: ['Fraunces Variable', 'Fraunces', 'ui-serif', 'serif'], // Pull quotes & special numerals
     },
     fontSize: {
       xs: '0.75rem',
