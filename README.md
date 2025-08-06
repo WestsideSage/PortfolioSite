@@ -106,18 +106,25 @@ Copy `.env.example` to `.env` in each package that requires it and fill in the v
 Each package can be run independently:
 
 ```bash
-# Astro site
-pnpm --filter astro-site dev
+# Astro site (port 9003)
+pnpm --filter @nova/astro-site dev
 
-# Next.js dashboard
-pnpm --filter next-dashboard dev
+# Next.js dashboard (port 3000)
+pnpm --filter @nova/next-dashboard dev
+pnpm --filter @nova/next-dashboard db:migrate     # Run database migrations
+pnpm --filter @nova/next-dashboard db:studio      # Open Drizzle Studio
 
-# Hono API
-pnpm --filter hono-api dev
+# Hono API (port 3003)
+pnpm --filter @nova/hono-api dev
 
-# FastAPI service
-pnpm --filter fastapi-svc dev
+# FastAPI service (port 8000)
+pnpm --filter @nova/fastapi-svc dev
 ```
+
+### Key API Endpoints
+
+- **Hono API**: `GET /healthz`, `GET /v1/projects`, `GET /v1/projects/:id`
+- **FastAPI**: `GET /api/ping`, `GET /` (HTMX demo)
 
 ## 🚢 Deployment
 

@@ -1,14 +1,51 @@
-# Astro Site
+# 🌟 Nova Astro Site
 
-A fast, static marketing site built with Astro 5 and Tailwind CSS.
+A modern portfolio site built with Astro 5, featuring the Emerald Sanctuary design system and mystical animations.
 
-## Features
+## ✨ Features
 
-- 🚀 Astro 5 with SSG (Static Site Generation)
-- 🎨 Tailwind CSS for styling
-- 📝 MDX support for blog content
-- ⚡ Lightning-fast performance
-- 🎵 Spotify integration for background music
+- 🚀 **Astro 5** with SSG (Static Site Generation)
+- 🎨 **Emerald Sanctuary Design System** - Curated sage/emerald palette
+- 🎭 **Domain Expansion Intro** - Interactive animation sequence
+- 🎵 **Spotify Integration** - Live music player
+- ⚡ **Lightning-fast Performance** - Optimized for speed
+- 📝 **MDX Support** for blog content
+
+## 📁 Project Structure (Reorganized)
+
+```
+src/
+├── components/
+│   ├── ui/                    # Reusable UI components
+│   │   ├── Navigation.astro
+│   │   ├── ThemeToggle.astro
+│   │   └── index.ts
+│   ├── features/              # Feature-specific components
+│   │   ├── SpotifyPlayer.astro
+│   │   ├── FontShowcase.astro
+│   │   └── index.ts
+│   └── intro/                 # Intro animation system
+├── design-system/             # Emerald Sanctuary design tokens
+├── styles/
+│   └── globals.css           # Consolidated styles & fonts
+├── layouts/
+├── pages/
+└── lib/
+```
+
+## 🎨 Design System
+
+The **Emerald Sanctuary** design system features:
+
+- **Color Palette**: Sage greens, deep emeralds, and mystical golds
+- **Typography Hierarchy**: 5 carefully selected fonts
+  - Bricolage Grotesque (Logo & hero headlines)
+  - Clash Grotesk (Section headings)
+  - Inter Variable (Body text & navigation)
+  - Geist Mono (Code snippets / stat blocks)
+  - Fraunces Variable (Pull quotes & special numerals)
+- **Component Utilities**: Pre-built classes for consistent styling
+- **Animation System**: Domain expansion themed animations
 
 ## Spotify Integration
 
