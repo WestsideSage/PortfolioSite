@@ -9,25 +9,25 @@ const recentPosts = posts
 ---
 
 <Layout
-  title="Welcome to Nova Portfolio"
-  description="A modern portfolio showcasing web development expertise and insights"
+  title="Maurice Calloway's Domain"
+  description="Here you can find my latest blog posts, projects, and more."
   showIntro={true}
 >
   <main class="container mx-auto px-4 py-8">
     <div class="flex min-h-[60vh] flex-col items-center justify-center text-center">
       <h1 class="text-6xl font-bold tracking-tighter">
-        Welcome to <span class="text-gradient">Nova</span>
+        Welcome to my <span class="text-gradient">Domain</span>
       </h1>
       <p class="mt-4 text-xl text-muted-foreground max-w-2xl">
-        A modern portfolio built with cutting-edge web technologies. Explore insights, tutorials,
-        and thoughts on web development.
+        Here you can find my latest Scrolls, projects, and more. Explore my work and get to know me
+        better!
       </p>
       <div class="mt-8 flex gap-4">
         <a
           href="/blog"
           class="rounded-lg bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90 transition-colors"
         >
-          Read Blog
+          Read the Sage Scrolls
         </a>
         <a
           href="https://github.com/WestsideSage"
@@ -44,8 +44,8 @@ const recentPosts = posts
       recentPosts.length > 0 && (
         <section class="mt-16">
           <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold mb-4">Latest Blog Posts</h2>
-            <p class="text-muted-foreground">Stay updated with the latest insights</p>
+            <h2 class="text-3xl font-bold mb-4">My latest Scrolls</h2>
+            <p class="text-muted-foreground">Check out some of my most recent Scrolls</p>
           </div>
 
           <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -79,7 +79,7 @@ const recentPosts = posts
 
           <div class="text-center mt-8">
             <a href="/blog" class="inline-flex items-center text-primary hover:underline">
-              View all posts
+              View all Scrolls
               <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
@@ -98,6 +98,6 @@ const recentPosts = posts
 
 <style>
   .text-gradient {
-    @apply bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent;
+    @apply bg-gradient-text-sanctuary bg-clip-text text-transparent;
   }
 </style>

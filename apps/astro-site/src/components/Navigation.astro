@@ -7,7 +7,7 @@ const { currentPath } = Astro.props;
 
 const navItems = [
   { href: '/', label: 'Home' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/blog', label: 'Sage Scrolls' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -18,27 +18,29 @@ const navItems = [
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
         <a href="/" class="text-xl font-bold text-foreground hover:text-primary transition-colors">
-          Nova Portfolio
+          Emerald Sanctuary
         </a>
       </div>
-      
+
       <div class="hidden md:block">
         <div class="ml-10 flex items-baseline space-x-4">
-          {navItems.map(item => (
-            <a
-              href={item.href}
-              class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                currentPath === item.href
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-foreground hover:text-primary hover:bg-secondary'
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+          {
+            navItems.map((item) => (
+              <a
+                href={item.href}
+                class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  currentPath === item.href
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:text-primary hover:bg-secondary'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))
+          }
         </div>
       </div>
-      
+
       <!-- Mobile menu button -->
       <div class="md:hidden">
         <button
@@ -50,39 +52,45 @@ const navItems = [
         >
           <span class="sr-only">Open main menu</span>
           <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
       </div>
     </div>
   </div>
-  
+
   <!-- Mobile menu -->
   <div class="md:hidden hidden" id="mobile-menu">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-border">
-      {navItems.map(item => (
-        <a
-          href={item.href}
-          class={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-            currentPath === item.href
-              ? 'bg-primary text-primary-foreground'
-              : 'text-foreground hover:text-primary hover:bg-secondary'
-          }`}
-        >
-          {item.label}
-        </a>
-      ))}
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+              currentPath === item.href
+                ? 'bg-primary text-primary-foreground'
+                : 'text-foreground hover:text-primary hover:bg-secondary'
+            }`}
+          >
+            {item.label}
+          </a>
+        ))
+      }
     </div>
   </div>
 </nav>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    
+
     if (mobileMenuButton && mobileMenu) {
-      mobileMenuButton.addEventListener('click', function() {
+      mobileMenuButton.addEventListener('click', function () {
         mobileMenu.classList.toggle('hidden');
         const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
         mobileMenuButton.setAttribute('aria-expanded', (!expanded).toString());

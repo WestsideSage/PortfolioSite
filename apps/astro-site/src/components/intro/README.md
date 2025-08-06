@@ -1,4 +1,4 @@
-# Gojo Domain Expansion Intro - Refactored
+# Emerald Sanctuary Domain Expansion Intro - Refactored
 
 This is a complete refactor of the original 2000+ line GojoIntro component, broken down into maintainable, reusable pieces following industry best practices.
 
@@ -8,18 +8,18 @@ This is a complete refactor of the original 2000+ line GojoIntro component, brok
 
 ```
 intro/
-├── GojoIntro.astro          # Main orchestrator component
-├── GojoEyes.astro           # Six Eyes animation
-├── ZodiacSigns.astro        # Zodiac signs sequence
-├── CosmicDomain.astro       # Domain expansion effects
-├── NameReveal.astro         # Name reveal animation
-├── SkipButton.astro         # Skip functionality
+├── GojoIntro.astro             # Main orchestrator component
+├── DomainExpansionText.astro   # Domain expansion text animation
+├── ZodiacSigns.astro           # Zodiac signs sequence
+├── CosmicDomain.astro          # Domain expansion effects
+├── NameReveal.astro            # Name reveal animation
+├── SkipButton.astro            # Skip functionality
 ├── config/
-│   └── introConfig.ts       # Configuration and timing
+│   └── introConfig.ts          # Configuration and timing
 ├── scripts/
-│   └── IntroController.ts   # Main animation controller
+│   └── IntroController.ts      # Main animation controller
 └── styles/
-    └── base.css            # Shared styles
+    └── base.css               # Shared styles
 ```
 
 ## Key Improvements

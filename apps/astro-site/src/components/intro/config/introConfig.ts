@@ -24,8 +24,8 @@ export const introConfig: IntroConfig = {
   totalDuration: 6000, // Total animation duration in ms (6 seconds)
 
   phases: {
-    eyes: {
-      name: 'Gojo Eyes',
+    domainText: {
+      name: 'Domain Expansion Text',
       startTime: 0,
       duration: 1500, // During "ryoiki tenkai" (0:00-0:01.5)
       fadeIn: 500,

@@ -80,15 +80,15 @@
     transform: scale(1.1);
   }
 
-  /* Sign-specific styling */
+  /* Sign-specific styling with Emerald Sanctuary theme */
   .aquarius-sign {
     z-index: 3;
     opacity: 0;
   }
 
   .aquarius-sign .zodiac-image {
-    filter: drop-shadow(0 0 20px #00ffff) drop-shadow(0 0 40px #0080ff) brightness(0) saturate(100%)
-      invert(50%) sepia(100%) saturate(2000%) hue-rotate(180deg) brightness(150%) contrast(120%);
+    filter: drop-shadow(0 0 20px #34a853) drop-shadow(0 0 40px #10b981) brightness(0) saturate(100%)
+      invert(50%) sepia(100%) saturate(2000%) hue-rotate(120deg) brightness(150%) contrast(120%);
   }
 
   .scorpio-sign {
@@ -96,8 +96,8 @@
   }
 
   .scorpio-sign .zodiac-image {
-    filter: drop-shadow(0 0 20px #ff0080) drop-shadow(0 0 40px #ff4040) brightness(0) saturate(100%)
-      invert(20%) sepia(100%) saturate(5000%) hue-rotate(320deg) brightness(140%) contrast(120%);
+    filter: drop-shadow(0 0 20px #22c55e) drop-shadow(0 0 40px #16a34a) brightness(0) saturate(100%)
+      invert(40%) sepia(100%) saturate(3000%) hue-rotate(90deg) brightness(140%) contrast(120%);
   }
 
   .leo-sign {
@@ -105,8 +105,8 @@
   }
 
   .leo-sign .zodiac-image {
-    filter: drop-shadow(0 0 20px #ffff00) drop-shadow(0 0 40px #ff8000) brightness(0) saturate(100%)
-      invert(70%) sepia(100%) saturate(1500%) hue-rotate(30deg) brightness(140%) contrast(115%);
+    filter: drop-shadow(0 0 20px #fbbf24) drop-shadow(0 0 40px #f59e0b) brightness(0) saturate(100%)
+      invert(60%) sepia(100%) saturate(1800%) hue-rotate(15deg) brightness(130%) contrast(115%);
   }
 
   @keyframes zodiacGlow {
@@ -137,16 +137,17 @@
 
   .first-name,
   .last-name {
-    font-family: 'Georgia', 'Times New Roman', serif;
-    font-weight: 300;
+    font-family: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+    font-weight: 400;
     font-size: 2.5rem;
     letter-spacing: 0.05em;
-    background: linear-gradient(45deg, #00ffff, #ff0080, #ffff00);
-    background-size: 200% 200%;
+    /* Emerald Sanctuary gradient text */
+    background: linear-gradient(45deg, #34a853, #10b981, #22c55e, #fbbf24, #16a34a);
+    background-size: 300% 300%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 30px rgba(52, 168, 83, 0.3);
     font-style: italic;
   }
 

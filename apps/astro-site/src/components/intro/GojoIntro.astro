@@ -1,6 +1,6 @@
 ---
-// GojoIntro.astro - Main orchestrator for the domain expansion intro
-import GojoEyes from './GojoEyes.astro';
+// GojoIntro.astro - Main orchestrator for the Emerald Sanctuary domain expansion intro
+import DomainExpansionText from './DomainExpansionText.astro';
 import ZodiacSigns from './ZodiacSigns.astro';
 import SkipButton from './SkipButton.astro';
 ---
@@ -12,14 +12,14 @@ import SkipButton from './SkipButton.astro';
   </audio>
 
   <!-- Scene components -->
-  <GojoEyes />
+  <DomainExpansionText />
   <ZodiacSigns />
 
   <SkipButton />
 
   <!-- Accessibility -->
   <div id="intro-announcement" class="sr-only" aria-live="polite">
-    Domain expansion intro playing. Press Tab and Enter to skip.
+    Emerald Sanctuary domain expansion intro playing. Press Tab and Enter to skip.
   </div>
 </div>
 
@@ -28,9 +28,15 @@ import SkipButton from './SkipButton.astro';
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+    /* Smooth Emerald Sanctuary gradient background */
+    background:
+      radial-gradient(ellipse at top left, #0f2419 0%, transparent 50%),
+      radial-gradient(ellipse at top right, #1a3d2e 0%, transparent 50%),
+      radial-gradient(ellipse at bottom left, #16213e 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, #1a2e1a 0%, transparent 50%),
+      linear-gradient(135deg, #0a1a0a 0%, #1a2e1a 25%, #0f2319 50%, #16213e 75%, #1a2e1a 100%);
     overflow: hidden;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Inter', 'Arial', sans-serif;
     user-select: none;
   }
 
@@ -41,11 +47,14 @@ import SkipButton from './SkipButton.astro';
     left: 0;
     right: 0;
     bottom: 0;
+    /* Smooth Emerald Sanctuary cosmic energy with better blending */
     background:
-      radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(255, 0, 128, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgba(255, 255, 0, 0.06) 0%, transparent 50%);
-    animation: cosmicDrift 20s ease-in-out infinite;
+      radial-gradient(circle at 25% 25%, rgba(52, 168, 83, 0.08) 0%, transparent 60%),
+      radial-gradient(circle at 75% 25%, rgba(16, 185, 129, 0.06) 0%, transparent 60%),
+      radial-gradient(circle at 25% 75%, rgba(34, 197, 94, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 75% 75%, rgba(52, 168, 83, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse at center, rgba(16, 185, 129, 0.03) 0%, transparent 70%);
+    animation: cosmicDrift 25s ease-in-out infinite;
     z-index: 0;
   }
 
@@ -57,67 +66,76 @@ import SkipButton from './SkipButton.astro';
     right: 0;
     bottom: 0;
     background-image:
-      /* Random star positions with varying sizes and opacity */
-      radial-gradient(1.5px 1.5px at 12% 15%, rgba(255, 255, 255, 0.6), transparent),
-      radial-gradient(1px 1px at 23% 8%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(2px 2px at 35% 25%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 47% 12%, rgba(255, 255, 255, 0.3), transparent),
-      radial-gradient(1.5px 1.5px at 58% 35%, rgba(255, 255, 255, 0.7), transparent),
-      radial-gradient(1px 1px at 67% 22%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(2px 2px at 78% 45%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 85% 18%, rgba(255, 255, 255, 0.3), transparent),
-      radial-gradient(1.5px 1.5px at 92% 38%, rgba(255, 255, 255, 0.6), transparent),
-      radial-gradient(1px 1px at 15% 55%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(2px 2px at 28% 68%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 42% 52%, rgba(255, 255, 255, 0.3), transparent),
-      radial-gradient(1.5px 1.5px at 55% 72%, rgba(255, 255, 255, 0.6), transparent),
-      radial-gradient(1px 1px at 68% 58%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(2px 2px at 82% 75%, rgba(255, 255, 255, 0.7), transparent),
-      radial-gradient(1px 1px at 95% 62%, rgba(255, 255, 255, 0.3), transparent),
-      radial-gradient(1.5px 1.5px at 8% 88%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 22% 92%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(2px 2px at 38% 85%, rgba(255, 255, 255, 0.6), transparent),
-      radial-gradient(1px 1px at 52% 95%, rgba(255, 255, 255, 0.3), transparent),
-      radial-gradient(1.5px 1.5px at 65% 82%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 78% 88%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(2px 2px at 88% 95%, rgba(255, 255, 255, 0.7), transparent),
-      radial-gradient(1px 1px at 5% 42%, rgba(255, 255, 255, 0.3), transparent),
-      radial-gradient(1.5px 1.5px at 18% 48%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 32% 38%, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(2px 2px at 45% 58%, rgba(255, 255, 255, 0.6), transparent),
-      radial-gradient(1px 1px at 62% 42%, rgba(255, 255, 255, 0.3), transparent),
-      radial-gradient(1.5px 1.5px at 75% 48%, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 88% 38%, rgba(255, 255, 255, 0.4), transparent);
-    animation: starsTwinkle 25s linear infinite;
+      /* Emerald and sage star field with mystical glow */
+      radial-gradient(1.5px 1.5px at 12% 15%, rgba(52, 168, 83, 0.8), transparent),
+      radial-gradient(1px 1px at 23% 8%, rgba(34, 197, 94, 0.6), transparent),
+      radial-gradient(2px 2px at 35% 25%, rgba(16, 185, 129, 0.7), transparent),
+      radial-gradient(1px 1px at 47% 12%, rgba(110, 140, 120, 0.5), transparent),
+      radial-gradient(1.5px 1.5px at 58% 35%, rgba(52, 168, 83, 0.9), transparent),
+      radial-gradient(1px 1px at 67% 22%, rgba(34, 197, 94, 0.6), transparent),
+      radial-gradient(2px 2px at 78% 45%, rgba(16, 185, 129, 0.7), transparent),
+      radial-gradient(1px 1px at 85% 18%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 92% 38%, rgba(52, 168, 83, 0.8), transparent),
+      radial-gradient(1px 1px at 15% 55%, rgba(34, 197, 94, 0.6), transparent),
+      radial-gradient(2px 2px at 28% 68%, rgba(16, 185, 129, 0.7), transparent),
+      radial-gradient(1px 1px at 42% 52%, rgba(110, 140, 120, 0.5), transparent),
+      radial-gradient(1.5px 1.5px at 55% 72%, rgba(52, 168, 83, 0.8), transparent),
+      radial-gradient(1px 1px at 68% 58%, rgba(34, 197, 94, 0.6), transparent),
+      radial-gradient(2px 2px at 82% 75%, rgba(16, 185, 129, 0.9), transparent),
+      radial-gradient(1px 1px at 95% 62%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 8% 88%, rgba(52, 168, 83, 0.7), transparent),
+      radial-gradient(1px 1px at 22% 92%, rgba(34, 197, 94, 0.6), transparent),
+      radial-gradient(2px 2px at 38% 85%, rgba(16, 185, 129, 0.8), transparent),
+      radial-gradient(1px 1px at 52% 95%, rgba(110, 140, 120, 0.5), transparent),
+      radial-gradient(1.5px 1.5px at 65% 82%, rgba(52, 168, 83, 0.7), transparent),
+      radial-gradient(1px 1px at 78% 88%, rgba(34, 197, 94, 0.6), transparent),
+      radial-gradient(2px 2px at 88% 95%, rgba(16, 185, 129, 0.9), transparent),
+      radial-gradient(1px 1px at 5% 42%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 18% 48%, rgba(52, 168, 83, 0.7), transparent),
+      radial-gradient(1px 1px at 32% 38%, rgba(34, 197, 94, 0.6), transparent),
+      radial-gradient(2px 2px at 45% 58%, rgba(16, 185, 129, 0.8), transparent),
+      radial-gradient(1px 1px at 62% 42%, rgba(110, 140, 120, 0.5), transparent),
+      radial-gradient(1.5px 1.5px at 75% 48%, rgba(52, 168, 83, 0.7), transparent),
+      radial-gradient(1px 1px at 88% 38%, rgba(34, 197, 94, 0.6), transparent);
+    animation: starsTwinkle 35s linear infinite;
     z-index: 0;
   }
 
   @keyframes cosmicDrift {
-    0%,
-    100% {
-      transform: translateX(0) translateY(0) scale(1);
-      opacity: 1;
-    }
-    25% {
-      transform: translateX(20px) translateY(-10px) scale(1.05);
+    0% {
+      transform: translateX(0) translateY(0) scale(1) rotate(0deg);
       opacity: 0.8;
     }
+    25% {
+      transform: translateX(10px) translateY(-8px) scale(1.02) rotate(1deg);
+      opacity: 0.9;
+    }
     50% {
-      transform: translateX(-15px) translateY(15px) scale(0.95);
+      transform: translateX(-8px) translateY(12px) scale(0.98) rotate(-1deg);
       opacity: 1;
     }
     75% {
-      transform: translateX(10px) translateY(-20px) scale(1.02);
-      opacity: 0.9;
+      transform: translateX(6px) translateY(-6px) scale(1.01) rotate(0.5deg);
+      opacity: 0.85;
+    }
+    100% {
+      transform: translateX(0) translateY(0) scale(1) rotate(0deg);
+      opacity: 0.8;
     }
   }
 
   @keyframes starsTwinkle {
     0% {
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-100px) scale(1.1);
+      opacity: 1;
     }
     100% {
-      transform: translateY(-200px);
+      transform: translateY(-200px) scale(0.8);
+      opacity: 0.4;
     }
   }
 

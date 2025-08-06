@@ -32,7 +32,7 @@ export class IntroController {
     // Start intro after brief delay
     setTimeout(() => this.startIntro(), 500);
 
-    console.log('🎌 Gojo Domain Expansion Intro loaded! Press ESC to skip.');
+    console.log('� Emerald Sanctuary Domain Expansion Intro loaded! Press ESC to skip.');
   }
 
   private makeIntroReady(): void {
@@ -51,7 +51,7 @@ export class IntroController {
 
     // Cache scene elements
     this.scenes = {
-      eyes: document.getElementById('scene-eyes'),
+      domainText: document.getElementById('scene-domain-text'),
       zodiac: document.getElementById('scene-handsign'),
     };
   }
@@ -95,14 +95,15 @@ export class IntroController {
   private runAnimationSequence(): void {
     const phases = introConfig.phases;
 
-    // Eyes phase
-    this.schedulePhase('eyes', () => {
-      this.showScene('eyes');
+    // Domain text phase (replacing eyes phase)
+    this.schedulePhase('domainText', () => {
+      this.showScene('domainText');
+      this.animateDomainText();
     });
 
     // Zodiac phase
     this.schedulePhase('zodiac', () => {
-      this.hideScene('eyes');
+      this.hideScene('domainText');
       this.showScene('zodiac');
       this.animateZodiacSigns();
     });
@@ -137,6 +138,14 @@ export class IntroController {
     const scene = this.scenes[sceneName];
     if (scene) {
       scene.style.opacity = '0';
+    }
+  }
+
+  private animateDomainText(): void {
+    const scene = this.scenes.domainText;
+    if (scene) {
+      // Add active class to trigger text animations
+      scene.classList.add('active');
     }
   }
 
