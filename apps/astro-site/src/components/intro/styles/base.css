@@ -1,0 +1,105 @@
+/* base.css - Shared styles for intro components */
+
+/* Scene base styles */
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.scene.active {
+  opacity: 1;
+}
+
+/* Common animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes nameAppear {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Performance optimizations */
+.intro-container {
+  transform: translateZ(0); /* Hardware acceleration */
+}
+
+.intro-container * {
+  backface-visibility: hidden;
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .intro-container {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-container {
+    font-size: 0.8rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .scene,
+  .scene * {
+    animation-duration: 0.3s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.3s !important;
+  }
+
+  .particle,
+  .gravity-wave,
+  .core-layer {
+    animation: none !important;
+  }
+}

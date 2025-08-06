@@ -1,0 +1,232 @@
+---
+// ZodiacSigns.astro - Zodiac signs animation sequence
+---
+
+<div id="scene-handsign" class="scene zodiac-scene">
+  <div class="zodiac-signs-container">
+    <!-- Aquarius sign - center position -->
+    <div class="zodiac-sign aquarius-sign" data-sign="aquarius">
+      <img src="/images/aquarius.png" alt="Aquarius sign" class="zodiac-image" />
+    </div>
+
+    <!-- Scorpio sign - slides to center -->
+    <div class="zodiac-sign scorpio-sign" data-sign="scorpio">
+      <img src="/images/scorpio.png" alt="Scorpio sign" class="zodiac-image" />
+    </div>
+
+    <!-- Leo sign - slides to right -->
+    <div class="zodiac-sign leo-sign" data-sign="leo">
+      <img src="/images/leo.png" alt="Leo sign" class="zodiac-image" />
+    </div>
+
+    <!-- Name reveal underneath -->
+    <div class="name-reveal">
+      <span class="first-name">Maurice</span>
+      <span class="name-separator">&nbsp;</span>
+      <span class="last-name">Calloway</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .zodiac-scene {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.5s ease,
+      visibility 0.5s ease;
+  }
+
+  /* Only make scene ready for JavaScript control when intro is initialized */
+  .zodiac-scene.intro-ready {
+    visibility: visible;
+  }
+
+  .zodiac-signs-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 200px;
+    transform: scale(1.2);
+    z-index: 10;
+  }
+
+  .zodiac-sign {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+  }
+
+  .zodiac-image {
+    width: 120px;
+    height: 120px;
+    animation: zodiacGlow 3s ease-in-out infinite alternate;
+    transition: transform 0.3s ease-out;
+  }
+
+  .zodiac-image:hover {
+    transform: scale(1.1);
+  }
+
+  /* Sign-specific styling */
+  .aquarius-sign {
+    z-index: 3;
+    opacity: 0;
+  }
+
+  .aquarius-sign .zodiac-image {
+    filter: drop-shadow(0 0 20px #00ffff) drop-shadow(0 0 40px #0080ff) brightness(0) saturate(100%)
+      invert(50%) sepia(100%) saturate(2000%) hue-rotate(180deg) brightness(150%) contrast(120%);
+  }
+
+  .scorpio-sign {
+    z-index: 2;
+  }
+
+  .scorpio-sign .zodiac-image {
+    filter: drop-shadow(0 0 20px #ff0080) drop-shadow(0 0 40px #ff4040) brightness(0) saturate(100%)
+      invert(20%) sepia(100%) saturate(5000%) hue-rotate(320deg) brightness(140%) contrast(120%);
+  }
+
+  .leo-sign {
+    z-index: 1;
+  }
+
+  .leo-sign .zodiac-image {
+    filter: drop-shadow(0 0 20px #ffff00) drop-shadow(0 0 40px #ff8000) brightness(0) saturate(100%)
+      invert(70%) sepia(100%) saturate(1500%) hue-rotate(30deg) brightness(140%) contrast(115%);
+  }
+
+  @keyframes zodiacGlow {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.08);
+    }
+  }
+
+  /* Name reveal styling */
+  .name-reveal {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+
+  .name-reveal.show {
+    animation: nameReveal 1.5s ease-out forwards;
+  }
+
+  .first-name,
+  .last-name {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-weight: 300;
+    font-size: 2.5rem;
+    letter-spacing: 0.05em;
+    background: linear-gradient(45deg, #00ffff, #ff0080, #ffff00);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    font-style: italic;
+  }
+
+  .name-reveal.show .first-name,
+  .name-reveal.show .last-name {
+    animation: gradientShift 2s ease-in-out infinite;
+  }
+
+  .name-separator {
+    width: 1rem;
+  }
+
+  @keyframes nameReveal {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Animation states - controlled by JavaScript */
+  .zodiac-sign.phase-1 {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .zodiac-sign.phase-2-aquarius {
+    transform: translateX(-240px) scale(0.85);
+    opacity: 0.8;
+    transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .zodiac-sign.phase-2-scorpio {
+    transform: translateX(0) scale(1.05);
+    opacity: 1;
+    transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .zodiac-sign.phase-2-leo {
+    transform: translateX(240px) scale(0.85);
+    opacity: 0.8;
+    transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .zodiac-signs-container {
+      transform: scale(1);
+    }
+
+    .zodiac-image {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .zodiac-signs-container {
+      transform: scale(0.8);
+    }
+
+    .zodiac-image {
+      width: 60px;
+      height: 60px;
+    }
+  }
+</style>

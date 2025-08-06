@@ -1,0 +1,121 @@
+---
+// GojoIntro.astro - Main orchestrator for the domain expansion intro
+import GojoEyes from './GojoEyes.astro';
+import ZodiacSigns from './ZodiacSigns.astro';
+import SkipButton from './SkipButton.astro';
+---
+
+<div id="gojo-intro" class="intro-container">
+  <!-- Audio element for the domain expansion sound -->
+  <audio id="domain-audio" preload="auto">
+    <source src="/audio/gojo-domain-expansion-shortened.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Scene components -->
+  <GojoEyes />
+  <ZodiacSigns />
+
+  <SkipButton />
+
+  <!-- Accessibility -->
+  <div id="intro-announcement" class="sr-only" aria-live="polite">
+    Domain expansion intro playing. Press Tab and Enter to skip.
+  </div>
+</div>
+
+<style>
+  .intro-container {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    user-select: none;
+  }
+
+  .intro-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255, 0, 128, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(255, 255, 0, 0.06) 0%, transparent 50%);
+    animation: cosmicDrift 20s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  .intro-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.3), transparent),
+      radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.3), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: starsTwinkle 15s linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes cosmicDrift {
+    0%,
+    100% {
+      transform: translateX(0) translateY(0) scale(1);
+      opacity: 1;
+    }
+    25% {
+      transform: translateX(20px) translateY(-10px) scale(1.05);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateX(-15px) translateY(15px) scale(0.95);
+      opacity: 1;
+    }
+    75% {
+      transform: translateX(10px) translateY(-20px) scale(1.02);
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes starsTwinkle {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-200px);
+    }
+  }
+
+  /* Screen reader only */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<script>
+  import { IntroController } from './scripts/IntroController';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const controller = new IntroController();
+    controller.init();
+  });
+</script>

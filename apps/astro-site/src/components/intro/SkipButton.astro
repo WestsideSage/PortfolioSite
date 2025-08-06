@@ -1,0 +1,49 @@
+---
+// SkipButton.astro - Skip intro button component
+---
+
+<button id="skip-intro" class="skip-button" aria-label="Skip intro animation"> Skip Intro </button>
+
+<style>
+  .skip-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    backdrop-filter: blur(10px);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+
+  .skip-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 28, 174, 0.3);
+  }
+
+  .skip-button:focus {
+    outline: 2px solid #ff1cae;
+    outline-offset: 2px;
+  }
+
+  .skip-button:active {
+    transform: translateY(0);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .skip-button {
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
+    }
+  }
+</style>

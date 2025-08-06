@@ -8,15 +8,19 @@ const recentPosts = posts
   .slice(0, 3);
 ---
 
-<Layout title="Welcome to Nova Portfolio" description="A modern portfolio showcasing web development expertise and insights">
+<Layout
+  title="Welcome to Nova Portfolio"
+  description="A modern portfolio showcasing web development expertise and insights"
+  showIntro={true}
+>
   <main class="container mx-auto px-4 py-8">
     <div class="flex min-h-[60vh] flex-col items-center justify-center text-center">
       <h1 class="text-6xl font-bold tracking-tighter">
         Welcome to <span class="text-gradient">Nova</span>
       </h1>
       <p class="mt-4 text-xl text-muted-foreground max-w-2xl">
-        A modern portfolio built with cutting-edge web technologies. 
-        Explore insights, tutorials, and thoughts on web development.
+        A modern portfolio built with cutting-edge web technologies. Explore insights, tutorials,
+        and thoughts on web development.
       </p>
       <div class="mt-8 flex gap-4">
         <a
@@ -36,55 +40,59 @@ const recentPosts = posts
       </div>
     </div>
 
-    {recentPosts.length > 0 && (
-      <section class="mt-16">
-        <div class="text-center mb-8">
-          <h2 class="text-3xl font-bold mb-4">Latest Blog Posts</h2>
-          <p class="text-muted-foreground">Stay updated with the latest insights</p>
-        </div>
-        
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {recentPosts.map(post => (
-            <article class="bg-card rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <h3 class="text-xl font-semibold mb-2">
-                <a href={`/blog/${post.slug}`} class="hover:text-primary transition-colors">
-                  {post.data.title}
-                </a>
-              </h3>
-              <p class="text-muted-foreground mb-4 text-sm line-clamp-3">
-                {post.data.description}
-              </p>
-              <div class="flex items-center justify-between text-xs text-muted-foreground">
-                <time datetime={post.data.pubDate.toISOString()}>
-                  {post.data.pubDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  })}
-                </time>
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <span class="px-2 py-1 bg-secondary text-secondary-foreground rounded">
-                    {post.data.tags[0]}
-                  </span>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
-        
-        <div class="text-center mt-8">
-          <a 
-            href="/blog" 
-            class="inline-flex items-center text-primary hover:underline"
-          >
-            View all posts
-            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-          </a>
-        </div>
-      </section>
-    )}
+    {
+      recentPosts.length > 0 && (
+        <section class="mt-16">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold mb-4">Latest Blog Posts</h2>
+            <p class="text-muted-foreground">Stay updated with the latest insights</p>
+          </div>
+
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {recentPosts.map((post) => (
+              <article class="bg-card rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <h3 class="text-xl font-semibold mb-2">
+                  <a href={`/blog/${post.slug}`} class="hover:text-primary transition-colors">
+                    {post.data.title}
+                  </a>
+                </h3>
+                <p class="text-muted-foreground mb-4 text-sm line-clamp-3">
+                  {post.data.description}
+                </p>
+                <div class="flex items-center justify-between text-xs text-muted-foreground">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {post.data.pubDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </time>
+                  {post.data.tags && post.data.tags.length > 0 && (
+                    <span class="px-2 py-1 bg-secondary text-secondary-foreground rounded">
+                      {post.data.tags[0]}
+                    </span>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div class="text-center mt-8">
+            <a href="/blog" class="inline-flex items-center text-primary hover:underline">
+              View all posts
+              <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          </div>
+        </section>
+      )
+    }
   </main>
 </Layout>
 

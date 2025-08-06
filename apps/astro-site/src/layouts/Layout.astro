@@ -2,13 +2,19 @@
 import '../styles/globals.css';
 import Navigation from '../components/Navigation.astro';
 import SpotifyPlayer from '../components/SpotifyPlayer.astro';
+import GojoIntro from '../components/GojoIntro.astro';
 
 interface Props {
   title: string;
   description?: string;
+  showIntro?: boolean;
 }
 
-const { title, description = 'A modern portfolio site built with Astro' } = Astro.props;
+const {
+  title,
+  description = 'A modern portfolio site built with Astro',
+  showIntro = false,
+} = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -23,6 +29,7 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
   </head>
   <body class="min-h-screen bg-background text-foreground">
+    {showIntro && <GojoIntro />}
     <Navigation currentPath={currentPath} />
     <slot />
     <SpotifyPlayer />

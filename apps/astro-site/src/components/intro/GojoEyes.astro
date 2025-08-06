@@ -1,0 +1,127 @@
+---
+// GojoEyes.astro - Gojo's Six Eyes close-up animation
+---
+
+<div id="scene-eyes" class="scene eyes-scene">
+  <div class="gojo-eyes-container">
+    <div class="gojo-eye left-eye">
+      <div class="iris"></div>
+      <div class="pupil"></div>
+      <div class="eye-glow"></div>
+    </div>
+    <div class="gojo-eye right-eye">
+      <div class="iris"></div>
+      <div class="pupil"></div>
+      <div class="eye-glow"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .eyes-scene {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  /* Only make scene ready for JavaScript control when intro is initialized */
+  .eyes-scene.intro-ready {
+    visibility: visible;
+  }
+
+  .gojo-eyes-container {
+    display: flex;
+    gap: 3rem;
+    transform: scale(2);
+  }
+
+  .gojo-eye {
+    width: 4rem;
+    height: 2.5rem;
+    position: relative;
+    border-radius: 50%;
+    background: radial-gradient(circle, #87ceeb 20%, #1e3a8a 60%, #000 100%);
+    box-shadow:
+      0 0 20px #00bfff,
+      inset 0 0 20px rgba(0, 191, 255, 0.3);
+    animation: eyeGlow 2s ease-in-out infinite alternate;
+  }
+
+  .iris {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00bfff 0%, #1e3a8a 70%);
+  }
+
+  .pupil {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: #000;
+  }
+
+  .eye-glow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, transparent 40%, #00bfff 60%, transparent 80%);
+    animation: eyePulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes eyeGlow {
+    0% {
+      box-shadow:
+        0 0 20px #00bfff,
+        inset 0 0 20px rgba(0, 191, 255, 0.3);
+    }
+    100% {
+      box-shadow:
+        0 0 40px #00bfff,
+        inset 0 0 30px rgba(0, 191, 255, 0.5);
+    }
+  }
+
+  @keyframes eyePulse {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.2);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .gojo-eyes-container {
+      transform: scale(1.2);
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gojo-eyes-container {
+      transform: scale(1);
+      gap: 1rem;
+    }
+  }
+</style>
