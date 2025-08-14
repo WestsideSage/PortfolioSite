@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { withBase } from '../lib/url';
 
 const posts = await getCollection('blog');
 const recentPosts = posts
@@ -24,7 +25,7 @@ const recentPosts = posts
       </p>
       <div class="mt-8 flex gap-4">
         <a
-          href="/blog"
+          href={withBase('blog')}
           class="rounded-lg bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90 transition-colors"
         >
           Read the Sage Scrolls
@@ -78,7 +79,10 @@ const recentPosts = posts
           </div>
 
           <div class="text-center mt-8">
-            <a href="/blog" class="inline-flex items-center text-primary hover:underline">
+            <a
+              href={withBase('blog')}
+              class="inline-flex items-center text-primary hover:underline"
+            >
               View all Scrolls
               <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path

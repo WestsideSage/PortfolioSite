@@ -1,22 +1,23 @@
 ---
 // ZodiacSigns.astro - Zodiac signs animation sequence
+import { withBase } from '../../lib/url';
 ---
 
 <div id="scene-handsign" class="scene zodiac-scene">
   <div class="zodiac-signs-container">
     <!-- Aquarius sign - center position -->
     <div class="zodiac-sign aquarius-sign" data-sign="aquarius">
-      <img src="/images/aquarius.png" alt="Aquarius sign" class="zodiac-image" />
+      <img src={withBase('images/aquarius.png')} alt="Aquarius sign" class="zodiac-image" />
     </div>
 
     <!-- Scorpio sign - slides to center -->
     <div class="zodiac-sign scorpio-sign" data-sign="scorpio">
-      <img src="/images/scorpio.png" alt="Scorpio sign" class="zodiac-image" />
+      <img src={withBase('images/scorpio.png')} alt="Scorpio sign" class="zodiac-image" />
     </div>
 
     <!-- Leo sign - slides to right -->
     <div class="zodiac-sign leo-sign" data-sign="leo">
-      <img src="/images/leo.png" alt="Leo sign" class="zodiac-image" />
+      <img src={withBase('images/leo.png')} alt="Leo sign" class="zodiac-image" />
     </div>
 
     <!-- Name reveal underneath -->

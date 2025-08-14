@@ -11,13 +11,20 @@ const navItems = [
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
+
+const { withBase } = await import('../../lib/url');
+const toHref = (p: string) => withBase(p.replace(/^\//, ''));
+const normalizedCurrent = new URL(currentPath || '/', Astro.url).pathname;
 ---
 
 <nav class="bg-background">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
-        <a href="/" class="text-xl font-bold text-foreground hover:text-primary transition-colors">
+        <a
+          href={toHref('/')}
+          class="text-xl font-bold text-foreground hover:text-primary transition-colors"
+        >
           Emerald Sanctuary
         </a>
       </div>
@@ -27,9 +34,9 @@ const navItems = [
           {
             navItems.map((item) => (
               <a
-                href={item.href}
+                href={toHref(item.href)}
                 class={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  currentPath === item.href
+                  normalizedCurrent === toHref(item.href)
                     ? 'bg-primary text-primary-foreground'
                     : 'text-foreground hover:text-primary hover:bg-secondary'
                 }`}
@@ -69,9 +76,9 @@ const navItems = [
       {
         navItems.map((item) => (
           <a
-            href={item.href}
+            href={toHref(item.href)}
             class={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-              currentPath === item.href
+              normalizedCurrent === toHref(item.href)
                 ? 'bg-primary text-primary-foreground'
                 : 'text-foreground hover:text-primary hover:bg-secondary'
             }`}

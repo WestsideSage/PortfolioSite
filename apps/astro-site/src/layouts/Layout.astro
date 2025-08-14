@@ -4,6 +4,7 @@ import Navigation from '../components/ui/Navigation.astro';
 import SpotifyPlayer from '../components/features/SpotifyPlayer.astro';
 import GojoIntro from '../components/GojoIntro.astro';
 import ThemeToggle from '../components/ui/ThemeToggle.astro';
+import { withBase } from '../lib/url';
 
 interface Props {
   title: string;
@@ -25,7 +26,7 @@ const currentPath = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 

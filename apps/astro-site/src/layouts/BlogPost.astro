@@ -17,56 +17,70 @@ const { Content } = await entry.render();
         <h1 class="text-4xl font-bold mb-4">{entry.data.title}</h1>
         <div class="flex items-center gap-4 text-muted-foreground border-b pb-4">
           <time datetime={entry.data.pubDate.toISOString()}>
-            {entry.data.pubDate.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </time>
-          {entry.data.updatedDate && (
-            <span>
-              Updated: {entry.data.updatedDate.toLocaleDateString('en-US', {
+            {
+              entry.data.pubDate.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
-                day: 'numeric'
-              })}
-            </span>
-          )}
-          {entry.data.tags && (
-            <div class="flex gap-2 ml-auto">
-              {entry.data.tags.map(tag => (
-                <span class="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+                day: 'numeric',
+              })
+            }
+          </time>
+          {
+            entry.data.updatedDate && (
+              <span>
+                Updated:{' '}
+                {entry.data.updatedDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </span>
+            )
+          }
+          {
+            entry.data.tags && (
+              <div class="flex gap-2 ml-auto">
+                {entry.data.tags.map((tag) => (
+                  <span class="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )
+          }
         </div>
       </header>
-      
-      {entry.data.heroImage && (
-        <img 
-          src={entry.data.heroImage} 
-          alt={entry.data.title}
-          class="w-full h-64 object-cover rounded-lg mb-8"
-        />
-      )}
-      
+
+      {
+        entry.data.heroImage && (
+          <img
+            src={entry.data.heroImage}
+            alt={entry.data.title}
+            class="w-full h-64 object-cover rounded-lg mb-8"
+          />
+        )
+      }
+
       <div class="prose-content">
         <Content />
       </div>
-      
+
       <footer class="mt-12 pt-8 border-t">
         <nav class="flex justify-between items-center">
-          <a href="/blog" class="text-primary hover:underline">
+          <a
+            href={(await import('../lib/url')).withBase('blog')}
+            class="text-primary hover:underline"
+          >
             ← Back to Blog
           </a>
           <div class="text-sm text-muted-foreground">
-            Published on {entry.data.pubDate.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
+            Published on {
+              entry.data.pubDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            }
           </div>
         </nav>
       </footer>

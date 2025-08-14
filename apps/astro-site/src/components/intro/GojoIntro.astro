@@ -3,12 +3,13 @@
 import DomainExpansionText from './DomainExpansionText.astro';
 import ZodiacSigns from './ZodiacSigns.astro';
 import SkipButton from './SkipButton.astro';
+import { withBase } from '../../lib/url';
 ---
 
 <div id="gojo-intro" class="intro-container">
   <!-- Audio element for the domain expansion sound -->
   <audio id="domain-audio" preload="auto">
-    <source src="/audio/gojo-domain-expansion-shortened.mp3" type="audio/mpeg" />
+    <source src={withBase('audio/gojo-domain-expansion-shortened.mp3')} type="audio/mpeg" />
   </audio>
 
   <!-- Scene components -->

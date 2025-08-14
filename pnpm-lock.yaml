@@ -81,18 +81,9 @@ importers:
       '@radix-ui/colors':
         specifier: ^3.0.0
         version: 3.0.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^7.0.0
-        version: 7.18.0(@typescript-eslint/parser@7.18.0)(eslint@8.57.1)(typescript@5.9.2)
-      '@typescript-eslint/parser':
-        specifier: ^7.0.0
-        version: 7.18.0(eslint@8.57.1)(typescript@5.9.2)
       autoprefixer:
         specifier: ^10.4.0
         version: 10.4.21(postcss@8.5.6)
-      eslint:
-        specifier: ^8.56.0
-        version: 8.57.1
       postcss:
         specifier: ^8.4.0
         version: 8.5.6
