@@ -82,3 +82,7 @@ pnpm --filter @nova/astro-site preview
 ## Deployment
 
 This site is configured to deploy to Vercel automatically on push to main branch.
+
+## Routing notes
+
+- The `/contact` route exists and 307-redirects to `/about`, where contact details live. This preserves existing navigation and links without changing user flow.

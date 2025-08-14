@@ -11,7 +11,7 @@
     "astro": "astro",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint . --ext .js,.ts,.astro"
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx,astro}\""
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -25,10 +25,7 @@
   },
   "devDependencies": {
     "@radix-ui/colors": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
     "autoprefixer": "^10.4.0",
-    "eslint": "^8.56.0",
     "postcss": "^8.4.0",
     "vitest": "^1.0.0"
   }
