@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry } from 'astro:content';
 import Layout from './Layout.astro';
+import { withBase } from '../lib/url';
 
 interface Props {
   entry: CollectionEntry<'blog'>;
@@ -67,12 +68,7 @@ const { Content } = await entry.render();
 
       <footer class="mt-12 pt-8 border-t">
         <nav class="flex justify-between items-center">
-          <a
-            href={(await import('../lib/url')).withBase('blog')}
-            class="text-primary hover:underline"
-          >
-            ← Back to Blog
-          </a>
+          <a href={withBase('blog')} class="text-primary hover:underline"> ← Back to Blog </a>
           <div class="text-sm text-muted-foreground">
             Published on {
               entry.data.pubDate.toLocaleDateString('en-US', {
